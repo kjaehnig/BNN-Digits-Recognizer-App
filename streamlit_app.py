@@ -25,4 +25,4 @@ if canvas_result.image_data is not None:
     st.write(f'Predicted Digit: {np.argmax(pred)}')
 
 if st.button('Clear'):
-    st.experimental_rerun()
+    st.rerun()
