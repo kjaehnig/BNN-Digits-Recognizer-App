@@ -17,7 +17,7 @@ canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
 if canvas_result.image_data is not None:
     # Preprocess the canvas image for prediction
     img = cv2.resize(canvas_result.image_data.astype('uint8'), (28, 28))
-    # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = np.expand_dims(img, axis=0) / 255.0
 
     # Predict the digit
