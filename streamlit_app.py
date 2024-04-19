@@ -2,6 +2,7 @@ import streamlit as st
 from tensorflow.keras.models import load_model
 import numpy as np
 import cv2
+from streamlit_drawable_canvas import st_canvas
 
 # Load the saved Bayesian model
 model = load_model('mnist_bnn', compile=False)
@@ -9,7 +10,7 @@ model = load_model('mnist_bnn', compile=False)
 st.title('MNIST Digit Classifier')
 
 # Streamlit canvas for drawing digits
-canvas_result = st.canvas(stroke_width=10, stroke_color='#ffffff',
+canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
                           background_color='#000000', height=150, width=150,
                           drawing_mode='freedraw')
 
