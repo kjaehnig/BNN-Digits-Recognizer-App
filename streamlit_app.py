@@ -12,7 +12,7 @@ st.title('MNIST Digit Classifier')
 # Streamlit canvas for drawing digits
 canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
                           background_color='#000000', height=150, width=150,
-                          drawing_mode='freedraw')
+                          drawing_mode='freedraw',key='canvas')
 
 def predict_digit_from_canvas(canvas_data):
     if canvas_data is not None:
@@ -23,7 +23,7 @@ def predict_digit_from_canvas(canvas_data):
         img = img.reshape(1, 28, 28, 1)  # Reshape for the model
 
         # Prediction
-        pred = model.predict(img)
+        pred = model(img).mode().numpy()
         pred_digit = np.argmax(pred)
         return f'Predicted Digit: {pred_digit}'
     return "No digit drawn or image not processed correctly."
