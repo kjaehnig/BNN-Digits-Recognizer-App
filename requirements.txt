@@ -51,14 +51,14 @@ MarkupSafe==2.1.4
 matplotlib==3.8.2
 matplotlib-inline==0.1.6
 mdurl==0.1.2
-mkl-fft @ file:///croot/mkl_fft_1695058164594/work
-mkl-random @ file:///croot/mkl_random_1695059800811/work
+mkl-fft 
+mkl-random 
 mkl-service==2.4.0
 ml-dtypes==0.3.2
 namex==0.0.7
 nest-asyncio==1.6.0
 nltk==3.8.1
-numpy @ file:///croot/numpy_and_numpy_base_1708638617955/work/dist/numpy-1.26.4-cp39-cp39-linux_x86_64.whl#sha256=6094eeedd869502faa0fd0a8c5ad3a70c5779be06ddd1feb7627e5c212fac420
+numpy 
 oauthlib==3.2.2
 opencv-python==4.9.0.80
 opt-einsum==3.3.0
@@ -95,7 +95,7 @@ rsa==4.9
 scikit-learn==1.4.1.post1
 scipy==1.13.0
 seaborn==0.13.2
-six @ file:///tmp/build/80754af9/six_1644875935023/work
+six 
 smmap==5.0.1
 stack-data==0.6.3
 streamlit==1.32.2
