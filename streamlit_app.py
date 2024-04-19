@@ -14,15 +14,27 @@ canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
                           background_color='#000000', height=150, width=150,
                           drawing_mode='freedraw')
 
-if canvas_result.image_data is not None:
-    # Preprocess the canvas image for prediction
-    img = cv2.resize(canvas_result.image_data.astype('uint8'), (28, 28))
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    img = np.expand_dims(img, axis=0) / 255.0
+def predict_digit_from_canvas(canvas_data):
+    if canvas_data is not None:
+        # Preprocessing
+        img = cv2.resize(canvas_data.astype('uint8'), (28, 28))
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img = img / 255.0
+        img = img.reshape(1, 28, 28, 1)  # Reshape for the model
 
-    # Predict the digit
-    pred = model.predict(img)
-    st.write(f'Predicted Digit: {np.argmax(pred)}')
+        # Prediction
+        pred = model.predict(img)
+        pred_digit = np.argmax(pred)
+        return f'Predicted Digit: {pred_digit}'
+    return "No digit drawn or image not processed correctly."
 
-if st.button('Clear'):
+# Button to submit the drawing for prediction
+if st.button('Submit'):
+    prediction = predict_digit_from_canvas(canvas_result.image_data)
+    st.write(prediction)
+
+# Button to clear the canvas
+if st.button('Clear Canvas'):
+    # This will clear the canvas and the prediction display
+    st.session_state[canvas_result.key] = None
     st.rerun()
