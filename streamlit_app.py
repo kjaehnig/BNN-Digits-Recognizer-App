@@ -4,7 +4,7 @@ import numpy as np
 import cv2
 
 # Load the saved Bayesian model
-model = load_model('/mnt/g/WSL/models/mnist_bnn', compile=False)
+model = load_model('mnist_bnn', compile=False)
 
 st.title('MNIST Digit Classifier')
 
