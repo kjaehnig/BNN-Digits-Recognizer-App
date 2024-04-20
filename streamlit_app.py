@@ -18,7 +18,6 @@ def process_image(image_data):
     img = np.expand_dims(img, axis=0)
     return img
 
-
 def plot_prediction_probs(probs):
     fig, ax = plt.subplots()
     ax.bar(range(10), probs.squeeze(), tick_label=range(10))
@@ -41,7 +40,7 @@ canvas_result = st_canvas(stroke_width=10, stroke_color='#000000',
 def predict_digit_from_canvas(canvas_data):
     if canvas_data is not None:
         # Preprocessing
-        img = process_image(canvas_data.image_data)
+        img = process_image(canvas_data.astype('uint8'))
         # Prediction
         pred = model(img).numpy().mean()
         pred_digit = np.argmax(pred)
