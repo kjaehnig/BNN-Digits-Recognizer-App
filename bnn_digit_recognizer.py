@@ -3,6 +3,7 @@ import numpy as np
 import scipy as sp
 import seaborn as sns
 import sklearn as skl
+from sklearn.metrics import classification_report
 
 import tensorflow_probability as tfp
 import tensorflow as tf
@@ -40,13 +41,13 @@ def create_bnn():
                          kernel_divergence_fn=divergence,
                          bias_divergence_fn=divergence, ),
 
-    Dropout(0.25),
+    Dropout(0.5),
     tfpl.DenseFlipout(512,
                          activation='relu',
                          kernel_divergence_fn=divergence,
                          bias_divergence_fn=divergence, ),
 
-    Dropout(0.25),
+    Dropout(0.5),
     tfpl.DenseFlipout(10,
                       activation='relu',
                       kernel_divergence_fn=divergence,
@@ -57,7 +58,7 @@ def create_bnn():
     return model
 
 model = create_bnn()
-model.compile(optimizer=Adam(learning_rate=1e-4),
+model.compile(optimizer=Adam(learning_rate=1e-3),
               loss=neg_loglike,
               metrics=['accuracy'],
               experimental_run_tf_function=False
@@ -85,9 +86,11 @@ reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
 
 mdlhist = model.fit(train_images,
                     train_labels,
-                    batch_size=512,
+                    batch_size=256,
                     epochs=100,
                     validation_data=(test_images, test_labels),
                     callbacks=[earlystop, reduce_lr])
+
+print(classification_report(test_labels, model.predict(test_images)))
 
 model.save('/home/lreclusa/repositories/BNN-Digits-Recognizer-App/mnist_bnn')

@@ -28,13 +28,16 @@ def plot_prediction_probs(probs):
 
 
 # Load the saved Bayesian model
-model = load_model('mnist_bnn', compile=False)
+model = load_model('mnist_bnn',
+                   compile=True,
+                   custom_objects={'neg_loglike':neg_loglike,
+                                   'divergence':divergence})
 
 st.title('MNIST Digit Classifier')
 
 # Streamlit canvas for drawing digits
-canvas_result = st_canvas(stroke_width=10, stroke_color='#000000',
-                          background_color='#ffffff', height=150, width=150,
+canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
+                          background_color='#000000', height=150, width=150,
                           drawing_mode='freedraw',key='canvas')
 
 def predict_digit_from_canvas(canvas_data):
