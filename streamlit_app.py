@@ -38,7 +38,7 @@ def plot_preprocessed_image(img):
                       bottom=False,
                       labelleft=False,
                       labelbottom=False)
-    return fig
+    return imgax
 # Load the saved Bayesian model
 model = load_model('mnist_bnn',
                    compile=True,
