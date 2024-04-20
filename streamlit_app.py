@@ -25,7 +25,7 @@ def process_image(image_data):
     return img
 
 def plot_prediction_probs(probs):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(4,4))
     ax.bar(range(10), probs.squeeze(), tick_label=range(10))
     plt.xlabel('Digits')
     plt.ylabel('Probability')
