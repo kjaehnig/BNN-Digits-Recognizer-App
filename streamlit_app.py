@@ -16,7 +16,7 @@ def process_image(image_data):
     img = cv2.resize(image_data.astype('uint8'), (28, 28))
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = np.expand_dims(img, axis=-1) / 255.0
-    img = np.expand_dims(img, axis=0)
+    img = img[np.newaxis, :]
     return img
 
 def plot_prediction_probs(probs):
@@ -26,7 +26,14 @@ def plot_prediction_probs(probs):
     plt.ylabel('Probability')
     return fig
 
-
+def plot_preprocessed_image(img):
+    fig, imgax = plt.subplots()
+    imgax.imshow(img)
+    imgax.tick_params(left=False,
+                      bottom=False,
+                      labelleft=False,
+                      labelbottom=False)
+    return fig
 # Load the saved Bayesian model
 model = load_model('mnist_bnn',
                    compile=True,
@@ -43,7 +50,8 @@ canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
 def predict_digit_from_canvas(canvas_data):
     if canvas_data is not None:
         # Preprocessing
-        img = process_image(canvas_data)
+        img = process_image(canvas_data.astype('float32'))
+        st.pyplot(plot_preprocessed_image(img))
         # Prediction
         pred = model(img).numpy().mean(axis=0)
         st.write(pred.T)
