@@ -25,14 +25,14 @@ def process_image(image_data):
     return img
 
 def plot_prediction_probs(probs):
-    fig, ax = plt.subplots(figsize=(4,4))
+    fig, ax = plt.subplots(figsize=(6,3))
     ax.bar(range(10), probs.squeeze(), tick_label=range(10))
     plt.xlabel('Digits')
     plt.ylabel('Probability')
     return fig
 
 def plot_preprocessed_image(img):
-    fig, imgax = plt.subplots()
+    fig, imgax = plt.subplots(figsize=(2,2))
     imgax.imshow(img.reshape(28,28, 1), cmap='gray')
     imgax.tick_params(left=False,
                       bottom=False,
