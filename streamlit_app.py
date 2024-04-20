@@ -45,7 +45,7 @@ def predict_digit_from_canvas(canvas_data):
         # Prediction
         pred = model(img).numpy().mean()
         pred_digit = np.argmax(pred)
-        st.pyplot(plot_prediction_probs(pred)
+        st.pyplot(plot_prediction_probs(pred))
         return f'Predicted Digit: {pred_digit}'
     return "No digit drawn or image not processed correctly."
 
