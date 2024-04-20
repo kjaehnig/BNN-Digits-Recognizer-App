@@ -40,7 +40,7 @@ canvas_result = st_canvas(stroke_width=10, stroke_color='#000000',
 def predict_digit_from_canvas(canvas_data):
     if canvas_data is not None:
         # Preprocessing
-        img = process_image(canvas_data.astype('uint8'))
+        img = process_image(canvas_data)
         # Prediction
         pred = model(img).numpy().mean()
         print(pred)
