@@ -16,7 +16,7 @@ def process_image(image_data):
     if image_data.shape[2] == 4:
         image_data = image_data[:, :, :3]
     gryimg = cv2.cvtColor(image_data, cv2.COLOR_BGR2GRAY)
-    invimg = 255 - gryimg
+    invimg = gryimg
     img = cv2.resize(invimg, (28, 28),
                interpolation=cv2.INTER_AREA)
     # img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY)
@@ -58,7 +58,7 @@ def predict_digit_from_canvas(canvas_data):
         img = process_image(canvas_data.astype('float32'))
         st.pyplot(plot_preprocessed_image(img))
         # Prediction
-        pred = model(img).numpy().mean(axis=0)
+        pred = model(img).numpy().mean(axis=1)
         # st.write(pred.T)
         pred_digit = np.argmax(pred)
         st.pyplot(plot_prediction_probs(pred))
