@@ -65,7 +65,6 @@ model.compile(optimizer=Adam(learning_rate=1e-4),
 
 print(model.summary())
 
-
 earlystop = tf.keras.callbacks.EarlyStopping(
     monitor='val_accuracy',
     patience=5,
@@ -86,7 +85,7 @@ reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
 
 mdlhist = model.fit(train_images,
                     train_labels,
-                    batch_size=256,
+                    batch_size=512,
                     epochs=100,
                     validation_data=(test_images, test_labels),
                     callbacks=[earlystop, reduce_lr])
