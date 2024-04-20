@@ -13,9 +13,14 @@ def divergence(q,p,_):
 
 def process_image(image_data):
     # Preprocess the canvas image for prediction
-    img = cv2.resize(image_data.astype('uint8'), (28, 28))
-    img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY)
-    img = np.expand_dims(img, axis=-1) / 255.0
+    if image_data.shape[2] == 4:
+        image_data = image_data[:, :, :3]
+    gryimg = cv2.cvtColor(image_data, cv2.COLOR_RGB2GRAY)
+    invimg = 255 - gryimg
+    img = cv2.resize(inverted_image, (28, 28),
+               interpolation=cv2.INTER_AREA)
+    # img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY)
+    # img = np.expand_dims(img, axis=-1) / 255.0
     img = img[np.newaxis, :]
     return img
 
