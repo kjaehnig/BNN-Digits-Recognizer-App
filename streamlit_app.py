@@ -28,8 +28,7 @@ def plot_prediction_probs(probs):
 
 
 # Load the saved Bayesian model
-model = load_model('mnist_bnn', custom_objects={'neg_loglike':neg_loglike,
-                                                'divergence':divergence})
+model = load_model('mnist_bnn', compile=False)
 
 st.title('MNIST Digit Classifier')
 
