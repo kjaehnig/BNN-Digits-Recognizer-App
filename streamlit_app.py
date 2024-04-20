@@ -58,7 +58,8 @@ def predict_digit_from_canvas(canvas_data):
         img = process_image(canvas_data.astype('float32'))
         st.pyplot(plot_preprocessed_image(img))
         # Prediction
-        pred = model(img).numpy().mean(axis=1)
+        pred = model(img)
+        st.write(pred.numpy().shape)
         # st.write(pred.T)
         pred_digit = np.argmax(pred)
         st.pyplot(plot_prediction_probs(pred))
