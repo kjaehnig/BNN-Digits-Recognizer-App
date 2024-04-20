@@ -57,15 +57,38 @@ def create_bnn():
     return model
 
 model = create_bnn()
-model.compile(optimizer=Adam(lr=5e-5),
+model.compile(optimizer=Adam(lr=1e-4),
               loss=neg_loglike,
               metrics=['accuracy'],
               experimental_run_tf_function=False
               )
 
 print(model.summary())
+
+
+earlystop = tf.keras.callbacks.EarlyStopping(
+    monitor='val_accuracy',
+    patience=5,
+    start_from_epoch=50,
+    restore_best_weights=True,
+    mode='max'
+)
+
+reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
+    monitor='val_accuracy',
+    factor = 0.95,
+    patience=5,
+    cooldown=5,
+    mode='max',
+    min_lr=1e-7,
+    verbose=1,
+    min_delta=0.01)
+
 mdlhist = model.fit(train_images,
                     train_labels,
-                    epochs=10,
-                    validation_data=(test_images, test_labels)
-                    )
+                    batch_size=128,
+                    epochs=100,
+                    validation_data=(test_images, test_labels),
+                    callbacks=[earlystop, reduce_lr])
+
+model.save('/mnt/g/WSL/models/mnist_bnn')
