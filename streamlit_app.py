@@ -60,6 +60,7 @@ def predict_digit_from_canvas(canvas_data):
         # Prediction
         pred = model(img)
         st.write(pred.numpy().shape)
+        pred = np.percentile(pred.numpy(), 50, axis=0)
         # st.write(pred.T)
         pred_digit = np.argmax(pred)
         st.pyplot(plot_prediction_probs(pred))
