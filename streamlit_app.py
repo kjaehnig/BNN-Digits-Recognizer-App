@@ -33,7 +33,7 @@ def plot_prediction_probs(probs):
 
 def plot_preprocessed_image(img):
     fig, imgax = plt.subplots()
-    imgax.imshow(img.reshape(28,28, 1))
+    imgax.imshow(img.reshape(28,28, 1), cmap='gray')
     imgax.tick_params(left=False,
                       bottom=False,
                       labelleft=False,
