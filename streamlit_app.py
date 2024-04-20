@@ -14,7 +14,7 @@ def divergence(q,p,_):
 def process_image(image_data):
     # Preprocess the canvas image for prediction
     img = cv2.resize(image_data.astype('uint8'), (28, 28))
-    # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
     img = np.expand_dims(img, axis=-1) / 255.0
     img = img[np.newaxis, :]
     return img
@@ -54,7 +54,7 @@ def predict_digit_from_canvas(canvas_data):
         st.pyplot(plot_preprocessed_image(img))
         # Prediction
         pred = model(img).numpy().mean(axis=0)
-        st.write(pred.T)
+        # st.write(pred.T)
         pred_digit = np.argmax(pred)
         st.pyplot(plot_prediction_probs(pred))
         return f'Predicted Digit: {pred_digit}'
