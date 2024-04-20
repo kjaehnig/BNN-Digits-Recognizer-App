@@ -42,7 +42,7 @@ def predict_digit_from_canvas(canvas_data):
         # Preprocessing
         img = process_image(canvas_data)
         # Prediction
-        pred = model(img).numpy().mean()
+        pred = model(img).mean().numpy()
         print(pred)
         pred_digit = np.argmax(pred)
         st.pyplot(plot_prediction_probs(pred))
