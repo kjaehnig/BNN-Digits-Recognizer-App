@@ -40,13 +40,13 @@ def create_bnn():
                          kernel_divergence_fn=divergence,
                          bias_divergence_fn=divergence, ),
 
-    Dropout(0.2),
+    Dropout(0.25),
     tfpl.DenseFlipout(512,
                          activation='relu',
                          kernel_divergence_fn=divergence,
                          bias_divergence_fn=divergence, ),
 
-    Dropout(0.2),
+    Dropout(0.25),
     tfpl.DenseFlipout(10,
                       activation='relu',
                       kernel_divergence_fn=divergence,
@@ -57,7 +57,7 @@ def create_bnn():
     return model
 
 model = create_bnn()
-model.compile(optimizer=Adam(lr=1e-4),
+model.compile(optimizer=Adam(learning_rate=1e-4),
               loss=neg_loglike,
               metrics=['accuracy'],
               experimental_run_tf_function=False
@@ -86,9 +86,9 @@ reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
 
 mdlhist = model.fit(train_images,
                     train_labels,
-                    batch_size=128,
+                    batch_size=256,
                     epochs=100,
                     validation_data=(test_images, test_labels),
                     callbacks=[earlystop, reduce_lr])
 
-model.save('/mnt/g/WSL/models/mnist_bnn')
+model.save('/home/lreclusa/repositories/BNN-Digits-Recognizer-App/mnist_bnn')
