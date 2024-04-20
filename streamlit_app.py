@@ -4,8 +4,16 @@ import numpy as np
 import cv2
 from streamlit_drawable_canvas import st_canvas
 
+def neg_loglike(ytrue, ypred):
+    return -ypred.log_prob(ytrue)
+
+def divergence(q,p,_):
+    return tfd.kl_divergence(q,p)/60000.
+
+
 # Load the saved Bayesian model
-model = load_model('mnist_bnn', compile=False)
+model = load_model('mnist_bnn', custom_objects={'neg_loglike':neg_loglike,
+                                                'divergence':divergence})
 
 st.title('MNIST Digit Classifier')
 
@@ -18,7 +26,7 @@ def predict_digit_from_canvas(canvas_data):
     if canvas_data is not None:
         # Preprocessing
         img = cv2.resize(canvas_data.astype('uint8'), (28, 28))
-        # img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+        img = cv2.cvtColor(img, cv2.COLOR_RGB2GRAY)
         img = img / 255.0
         img = img.reshape(1, 28, 28, 1)  # Reshape for the model
 
