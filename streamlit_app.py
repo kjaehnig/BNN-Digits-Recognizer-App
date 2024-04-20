@@ -17,8 +17,7 @@ def process_image(image_data):
         image_data = image_data[:, :, :3]
     gryimg = cv2.cvtColor(image_data, cv2.COLOR_BGR2GRAY)
     invimg = gryimg
-    img = cv2.resize(invimg, (28, 28),
-               interpolation=cv2.INTER_AREA)
+    img = cv2.resize(invimg, (28, 28))
     # img = cv2.cvtColor(img, cv2.COLOR_RGBA2GRAY)
     # img = np.expand_dims(img, axis=-1) / 255.0
     img = img[np.newaxis, :]
