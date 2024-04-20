@@ -15,7 +15,7 @@ def process_image(image_data):
     # Preprocess the canvas image for prediction
     if image_data.shape[2] == 4:
         image_data = image_data[:, :, :3]
-    gryimg = cv2.cvtColor(image_data, cv2.COLOR_RGB2GRAY)
+    gryimg = cv2.cvtColor(image_data, cv2.BGR2GRAY)
     invimg = 255 - gryimg
     img = cv2.resize(invimg, (28, 28),
                interpolation=cv2.INTER_AREA)
