@@ -4,6 +4,7 @@ import scipy as sp
 import seaborn as sns
 import sklearn as skl
 from sklearn.metrics import classification_report
+from sklearn.utils import class_weight
 
 import tensorflow_probability as tfp
 import tensorflow as tf
@@ -35,7 +36,12 @@ def divergence(q,p,_):
 
 def create_bnn():
     model = Sequential([
-    Flatten(input_shape=(28,28)),
+    # tf.keras.layers.RandomFlip('horizontal_and_vertical', input_shape=(2)),
+    # tf.keras.layers.RandomRotation(0.1, input_shape=(28, 28)),
+    # tf.keras.layers.RandomTranslation(0.05, 0.05, input_shape=(28, 28)),
+    tf.keras.layers.RandomContrast(0.1, input_shape=(28, 28)),
+    # tf.keras.layers.RandomBrightness(0.1),
+    Flatten(),
     tfpl.DenseFlipout(784,
                          activation='relu',
                          kernel_divergence_fn=divergence,
@@ -84,9 +90,16 @@ reduce_lr = tf.keras.callbacks.ReduceLROnPlateau(
     verbose=1,
     min_delta=0.01)
 
+class_weights = class_weight.compute_class_weight(class_weight='balanced',
+                                                  classes=np.unique(np.argmax(train_labels,axis=1)),
+                                                  y=np.argmax(train_labels,axis=1))
+cws = {}
+for num in range(10):
+    cws[num] = class_weights[num]
 mdlhist = model.fit(train_images,
                     train_labels,
-                    batch_size=256,
+                    class_weight=cws,
+                    batch_size=1024,
                     epochs=100,
                     validation_data=(test_images, test_labels),
                     callbacks=[earlystop, reduce_lr])
