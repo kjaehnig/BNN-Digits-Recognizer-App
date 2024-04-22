@@ -24,7 +24,11 @@ tfpl = tfp.layers
 
 # Normalize pixel values
 train_images, test_images = train_images / 255.0, test_images / 255.0
+print(train_images.shape)
 
+# Reshape images to have single-channel
+train_images, test_images = (train_images.reshape(train_images.shape[0], 28, 28, 1),
+                             test_images.reshape(test_images.shape[0], 28, 28, 1))
 # One-hot encode labels
 train_labels, test_labels = to_categorical(train_labels), to_categorical(test_labels)
 
@@ -36,24 +40,36 @@ def divergence(q,p,_):
 
 def create_bnn():
     model = Sequential([
-    # tf.keras.layers.RandomFlip('horizontal_and_vertical', input_shape=(2)),
-    # tf.keras.layers.RandomRotation(0.1, input_shape=(28, 28)),
-    # tf.keras.layers.RandomTranslation(0.05, 0.05, input_shape=(28, 28)),
-    tf.keras.layers.RandomContrast(0.1, input_shape=(28, 28)),
+    # tf.keras.layers.RandomFlip('horizontal', input_shape=(28, 28, 1)),
+    # tf.keras.layers.RandomRotation(0.1, input_shape=(28, 28, 1)),
+    tf.keras.layers.RandomTranslation(0.15, 0.15, input_shape=(28, 28, 1)),
+    # tf.keras.layers.RandomContrast(0.1, input_shape=(28, 28, 1)),
     # tf.keras.layers.RandomBrightness(0.1),
+    # Flatten(),
+    tfpl.Convolution2DFlipout(16,
+        kernel_size=(3, 3),
+        padding='same',
+        activation='relu',
+        kernel_divergence_fn=divergence,
+        bias_divergence_fn=divergence, ),
+
+    MaxPooling2D((2,2)),
+    Dropout(0.15),
+    tfpl.Convolution2DFlipout(32,
+        kernel_size=(3, 3),
+        padding='same',
+        activation='relu',
+        kernel_divergence_fn=divergence,
+        bias_divergence_fn=divergence, ),
+
+    Dropout(0.15),
+    MaxPooling2D((2,2)),
     Flatten(),
-    tfpl.DenseFlipout(784,
-                         activation='relu',
-                         kernel_divergence_fn=divergence,
-                         bias_divergence_fn=divergence, ),
-
-    Dropout(0.5),
     tfpl.DenseFlipout(512,
-                         activation='relu',
-                         kernel_divergence_fn=divergence,
-                         bias_divergence_fn=divergence, ),
-
-    Dropout(0.5),
+                      activation='relu',
+                      kernel_divergence_fn=divergence,
+                      bias_divergence_fn=divergence),
+    Dropout(0.25),
     tfpl.DenseFlipout(10,
                       activation='relu',
                       kernel_divergence_fn=divergence,
@@ -64,7 +80,7 @@ def create_bnn():
     return model
 
 model = create_bnn()
-model.compile(optimizer=Adam(learning_rate=1e-3),
+model.compile(optimizer=Adam(learning_rate=1e-4),
               loss=neg_loglike,
               metrics=['accuracy'],
               experimental_run_tf_function=False
