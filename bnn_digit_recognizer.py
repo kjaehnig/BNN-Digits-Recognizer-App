@@ -41,8 +41,8 @@ def divergence(q,p,_):
 def create_bnn():
     model = Sequential([
     # tf.keras.layers.RandomFlip('horizontal', input_shape=(28, 28, 1)),
-    # tf.keras.layers.RandomRotation(0.1, input_shape=(28, 28, 1)),
-    tf.keras.layers.RandomTranslation(0.15, 0.15, input_shape=(28, 28, 1)),
+    tf.keras.layers.RandomRotation(0.1, input_shape=(28, 28, 1)),
+    tf.keras.layers.RandomTranslation(0.25, 0.25),
     # tf.keras.layers.RandomContrast(0.1, input_shape=(28, 28, 1)),
     # tf.keras.layers.RandomBrightness(0.1),
     # Flatten(),
@@ -80,7 +80,7 @@ def create_bnn():
     return model
 
 model = create_bnn()
-model.compile(optimizer=Adam(learning_rate=1e-4),
+model.compile(optimizer=Adam(learning_rate=5e-4),
               loss=neg_loglike,
               metrics=['accuracy'],
               experimental_run_tf_function=False
@@ -90,7 +90,7 @@ print(model.summary())
 
 earlystop = tf.keras.callbacks.EarlyStopping(
     monitor='val_accuracy',
-    patience=5,
+    patience=10,
     start_from_epoch=50,
     restore_best_weights=True,
     mode='max'
@@ -116,7 +116,7 @@ mdlhist = model.fit(train_images,
                     train_labels,
                     class_weight=cws,
                     batch_size=1024,
-                    epochs=100,
+                    epochs=200,
                     validation_data=(test_images, test_labels),
                     callbacks=[earlystop, reduce_lr])
 
