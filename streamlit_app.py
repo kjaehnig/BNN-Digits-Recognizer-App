@@ -107,7 +107,7 @@ with col1:
         width=300,
         drawing_mode='freedraw', 
         key='canvas',
-        update_streamlit=False)
+        update_streamlit=True)
 
     # Sampling number input
     N = st.slider('N (Number of Samplings)', min_value=0, max_value=50, value=1)
