@@ -56,7 +56,7 @@ def predict_digit_from_canvas(canvas_data):
     if canvas_data is not None:
         # Preprocessing
         img = process_image(canvas_data.astype('float32'))
-        st.pyplot(plot_preprocessed_image(img))
+        # st.pyplot(plot_preprocessed_image(img))
         # Prediction
         pred = model(img)
         # st.write(pred.numpy().shape)
