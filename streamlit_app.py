@@ -49,7 +49,7 @@ st.title('MNIST Digit Classifier')
 
 # Streamlit canvas for drawing digits
 canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
-                          background_color='#000000', height=150, width=150,
+                          background_color='#000000', height=200, width=200,
                           drawing_mode='freedraw',key='canvas')
 
 def predict_digit_from_canvas(canvas_data):
@@ -63,6 +63,11 @@ def predict_digit_from_canvas(canvas_data):
         pred = np.percentile(pred.numpy(), 50, axis=0)
         # st.write(pred.T)
         pred_digit = np.argmax(pred)
+        col1, col2 = st.columns(2)
+        with col1:
+            st.pyplot(plot_preprocessed_image(img))
+        with col2:
+            st.pyplot(plot_prediction_probs(pred))
         # st.pyplot(plot_prediction_probs(pred))
         # return f'Predicted Digit: {pred_digit}'
         return img, pred, pred_digit
@@ -71,11 +76,4 @@ def predict_digit_from_canvas(canvas_data):
 # Button to submit the drawing for prediction
 if st.button('Submit'):
     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data)
-    if img is not None:
-        col1, col2 = st.columns(2)
-        with col1:
-            st.pyplot(plot_preprocessed_image(img))
-        with col2:
-            st.write(f'Predicted digit: {pred_digit}')
-        st.pyplot(plot_prediction_probs(pred))
-    # st.write(prediction)
+    st.write(f'Predicted digit: {pred_digit}')
