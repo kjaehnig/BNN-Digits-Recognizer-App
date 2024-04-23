@@ -41,7 +41,7 @@ def divergence(q,p,_):
 def create_bnn():
     model = Sequential([
     # tf.keras.layers.RandomFlip('horizontal', input_shape=(28, 28, 1)),
-    tf.keras.layers.RandomRotation(0.1, input_shape=(28, 28, 1)),
+    tf.keras.layers.RandomRotation(0.15, input_shape=(28, 28, 1)),
     tf.keras.layers.RandomTranslation(0.25, 0.25),
     # tf.keras.layers.RandomContrast(0.1, input_shape=(28, 28, 1)),
     # tf.keras.layers.RandomBrightness(0.1),
@@ -54,7 +54,7 @@ def create_bnn():
         bias_divergence_fn=divergence, ),
 
     MaxPooling2D((2,2)),
-    Dropout(0.15),
+    Dropout(0.1),
     tfpl.Convolution2DFlipout(32,
         kernel_size=(3, 3),
         padding='same',
@@ -62,14 +62,14 @@ def create_bnn():
         kernel_divergence_fn=divergence,
         bias_divergence_fn=divergence, ),
 
-    Dropout(0.15),
+    Dropout(0.1),
     MaxPooling2D((2,2)),
     Flatten(),
     tfpl.DenseFlipout(512,
                       activation='relu',
                       kernel_divergence_fn=divergence,
                       bias_divergence_fn=divergence),
-    Dropout(0.25),
+    Dropout(0.2),
     tfpl.DenseFlipout(10,
                       activation='relu',
                       kernel_divergence_fn=divergence,
@@ -80,7 +80,7 @@ def create_bnn():
     return model
 
 model = create_bnn()
-model.compile(optimizer=Adam(learning_rate=5e-4),
+model.compile(optimizer=Adam(learning_rate=2.6e-4),
               loss=neg_loglike,
               metrics=['accuracy'],
               experimental_run_tf_function=False
@@ -91,7 +91,7 @@ print(model.summary())
 earlystop = tf.keras.callbacks.EarlyStopping(
     monitor='val_accuracy',
     patience=10,
-    start_from_epoch=50,
+    start_from_epoch=100,
     restore_best_weights=True,
     mode='max'
 )
@@ -118,7 +118,7 @@ mdlhist = model.fit(train_images,
                     batch_size=1024,
                     epochs=200,
                     validation_data=(test_images, test_labels),
-                    callbacks=[earlystop, reduce_lr])
+                    callbacks=[reduce_lr])
 
 print(classification_report(test_labels, model.predict(test_images)))
 
