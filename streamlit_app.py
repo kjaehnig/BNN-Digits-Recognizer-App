@@ -77,5 +77,5 @@ if st.button('Submit'):
             st.pyplot(plot_preprocessed_image(img))
         with col2:
             st.write(f'Predicted digit: {pred_digit}')
-        st.pyplot(plot_prediction(probs))
+        st.pyplot(plot_prediction_probs(pred))
     # st.write(prediction)
