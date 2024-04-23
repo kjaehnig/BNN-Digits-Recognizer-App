@@ -105,9 +105,9 @@ with col1:
         st.warning("Setting N above 10 may slow down the predictions.")
 
     # Button to submit the drawing for prediction
-    if st.button('Submit'):
-        img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
-        st.write(pred_digit)
+if st.button('Submit'):
+    img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
+    st.write(pred_digit)
 
 with col2:
     st.pyplot(plot_preprocessed_image(img))
