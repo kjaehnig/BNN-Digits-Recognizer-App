@@ -70,7 +70,7 @@ def predict_digit_from_canvas(canvas_data):
 
 # Button to submit the drawing for prediction
 if st.button('Submit'):
-    img, pred, probs = predict_digit_from_canvas(canvas_result.image_data)
+    img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data)
     if img is not None:
         col1, col2 = st.columns(2)
         with col1:
