@@ -78,6 +78,20 @@ st.title('MNIST Digit Classifier')
 #     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data)
 #     st.write(f'Predicted digit: {pred_digit}')
 # Side-by-side canvas and results
+def predict_digit_from_canvas(canvas_data, num_samples):
+    if canvas_data is not None:
+        # Preprocessing
+        img = process_image(canvas_data.astype('float32'))
+
+        # Prediction
+        # pred = model.predict(img, batch_size=num_samples)  # Assume model.predict handles BNN sampling
+        pred = np.array([model(img).numpy() for ii in range(num_samples)])
+        pred = np.percentile(pred, 50, axis=0)  # Median over samples
+        pred_digit = np.argmax(pred)
+
+        return img, pred, pred_digit
+    return "No digit drawn or image not processed correctly."
+
 col1, col2 = st.columns(2)
 with col1:
     # Streamlit canvas for drawing digits
@@ -92,20 +106,9 @@ with col1:
 
     # Button to submit the drawing for prediction
     if st.button('Submit'):
-        prediction = predict_digit_from_canvas(canvas_result.image_data, N)
-        st.write(prediction)
+        img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
+        st.write(pred_digit)
 
 with col2:
-    def predict_digit_from_canvas(canvas_data, num_samples):
-        if canvas_data is not None:
-            # Preprocessing
-            img = process_image(canvas_data.astype('float32'))
-            st.pyplot(plot_preprocessed_image(img))
-            # Prediction
-            # pred = model.predict(img, batch_size=num_samples)  # Assume model.predict handles BNN sampling
-            pred = np.array([model(img) for ii in range(num_samples)])
-            pred = np.percentile(pred, 50, axis=0)  # Median over samples
-            pred_digit = np.argmax(pred)
-            st.pyplot(plot_prediction_probs(pred))
-            return f'Predicted Digit: {pred_digit}'
-        return "No digit drawn or image not processed correctly."
+    st.pyplot(plot_preprocessed_image(img))
+    st.pyplot(plot_prediction_probs(pred))
