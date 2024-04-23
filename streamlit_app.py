@@ -25,15 +25,17 @@ def process_image(image_data):
     return img
 
 def plot_prediction_probs(probs):
-    fig, ax = plt.subplots(figsize=(6,3))
-    ax.bar(range(10), probs.squeeze(), tick_label=range(10))
-    plt.xlabel('Digits')
-    plt.ylabel('Probability')
+    fig, ax = plt.subplots(figsize=(3,6))
+    ax.bar(probs.squeeze(), range(10), tick_label=range(10))
+    ax.set_title("BNN Predictions")
+    plt.xlabel('Probability')
+    plt.ylabel('Digit')
     return fig
 
 def plot_preprocessed_image(img):
-    fig, imgax = plt.subplots(figsize=(1.5,1.5))
+    fig, imgax = plt.subplots(figsize=(1.,1.))
     imgax.imshow(img.reshape(28,28, 1), cmap='gray')
+    imgax.set_title('What BNN sees')
     imgax.tick_params(left=False,
                       bottom=False,
                       labelleft=False,
@@ -88,7 +90,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         pred = np.array([model(img).numpy() for ii in range(num_samples)])
         st.write(pred)
         # pred = np.percentile(pred, 50, axis=0)  # Median over samples
-        pred = np.mean(pred, axis=0)
+        pred = np.sum(pred, axis=0) / num_samples
         pred_digit = np.argmax(pred)
 
         return img, pred, pred_digit
@@ -97,9 +99,15 @@ def predict_digit_from_canvas(canvas_data, num_samples):
 col1, col2 = st.columns(2)
 with col1:
     # Streamlit canvas for drawing digits
-    canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
-                              background_color='#000000', height=200, width=200,
-                              drawing_mode='freedraw', key='canvas')
+    canvas_result = st_canvas(
+        stroke_width=10, 
+        stroke_color='#ffffff',
+        background_color='#000000', 
+        height=300, 
+        width=300,
+        drawing_mode='freedraw', 
+        key='canvas',
+        update_streamlit=False)
 
     # Sampling number input
     N = st.slider('N (Number of Samplings)', min_value=0, max_value=50, value=1)
@@ -110,7 +118,7 @@ with col1:
 img=None
 if st.button('Submit'):
     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
-    st.write(pred_digit)
+    # st.write(pred_digit)
 
 with col2:
     if img is not None:
