@@ -110,5 +110,6 @@ if st.button('Submit'):
     st.write(pred_digit)
 
 with col2:
-    st.pyplot(plot_preprocessed_image(img))
-    st.pyplot(plot_prediction_probs(pred))
+    if img is not None:
+        st.pyplot(plot_preprocessed_image(img))
+        st.pyplot(plot_prediction_probs(pred))
