@@ -1,9 +1,8 @@
 import streamlit as st
-from streamlit_drawable_canvas import st_canvas
-
 from tensorflow.keras.models import load_model
 import numpy as np
 import cv2
+from streamlit_drawable_canvas import st_canvas
 import matplotlib.pyplot as plt
 
 def neg_loglike(ytrue, ypred):
@@ -27,7 +26,7 @@ def process_image(image_data):
 
 def plot_prediction_probs(probs):
     fig, ax = plt.subplots(figsize=(3,6))
-    ax.bar(range(10), probs, tick_label=range(10))
+    ax.bar(probs.squeeze(), range(10), tick_label=range(10))
     ax.set_title("BNN Predictions")
     plt.xlabel('Probability')
     plt.ylabel('Digit')
@@ -91,7 +90,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         pred = np.array([model(img).numpy() for ii in range(num_samples)])
         # st.write(pred)
         # pred = np.percentile(pred, 50, axis=0)  # Median over samples
-        pred = pred.reshape(10, num_samples).sum(axis=0) / num_samples
+        pred = np.sum(pred, axis=0) / num_samples
         pred_digit = np.argmax(pred)
 
         return img, pred, pred_digit
