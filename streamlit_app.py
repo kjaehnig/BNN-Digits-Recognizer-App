@@ -86,7 +86,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         # Prediction
         # pred = model.predict(img, batch_size=num_samples)  # Assume model.predict handles BNN sampling
         pred = np.array([model(img).numpy() for ii in range(num_samples)])
-        pred = np.percentile(pred, 50, axis=0)  # Median over samples
+        pred = np.percentile(pred, 50, axis=1)  # Median over samples
         pred_digit = np.argmax(pred)
 
         return img, pred, pred_digit
