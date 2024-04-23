@@ -98,11 +98,11 @@ col1, col2 = st.columns(2)
 with col1:
     # Streamlit canvas for drawing digits
     canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
-                              background_color='#000000', height=150, width=150,
+                              background_color='#000000', height=200, width=200,
                               drawing_mode='freedraw', key='canvas')
 
     # Sampling number input
-    N = st.number_input('Set N (Number of Samplings)', min_value=0, max_value=50, value=1, step=1)
+    N = st.slider('N (Number of Samplings)', min_value=0, max_value=50, value=1)
     if N > 10:
         st.warning("Setting N above 10 may slow down the predictions.")
 
