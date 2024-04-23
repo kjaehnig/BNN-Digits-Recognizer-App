@@ -27,7 +27,7 @@ def process_image(image_data):
 
 def plot_prediction_probs(probs):
     fig, ax = plt.subplots(figsize=(3,6))
-    ax.bar(probs.squeeze(), range(10), tick_label=range(10))
+    ax.bar(probs, range(10), tick_label=range(10))
     ax.set_title("BNN Predictions")
     plt.xlabel('Probability')
     plt.ylabel('Digit')
