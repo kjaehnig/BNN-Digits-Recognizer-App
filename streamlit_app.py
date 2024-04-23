@@ -35,7 +35,7 @@ def plot_prediction_probs(probs):
 def plot_preprocessed_image(img):
     fig, imgax = plt.subplots(figsize=(1.,1.))
     imgax.imshow(img.reshape(28,28, 1), cmap='gray')
-    imgax.set_title('What BNN sees')
+    imgax.set_title('What model sees', fontsize=8)
     imgax.tick_params(left=False,
                       bottom=False,
                       labelleft=False,
@@ -89,8 +89,8 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         # pred = model.predict(img, batch_size=num_samples)  # Assume model.predict handles BNN sampling
         pred = np.array([model(img).numpy().squeeze() for ii in range(num_samples)])
         st.write(pred)
-        pred = np.percentile(pred, 50, axis=0)  # Median over samples
-        # pred = np.sum(pred, axis=0) / num_samples
+        # pred = np.percentile(pred, 50, axis=0)  # Median over samples
+        pred = np.sum(pred, axis=0) / num_samples
         pred_digit = np.argmax(pred)
 
         return img, pred, pred_digit
