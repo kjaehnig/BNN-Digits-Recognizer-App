@@ -41,9 +41,9 @@ def plot_preprocessed_image(img):
     return fig
 # Load the saved Bayesian model
 model = load_model('mnist_bnn',
-                   compile=True,
-                   custom_objects={'neg_loglike':neg_loglike,
-                                   'divergence':divergence})
+                   compile=False,)
+                   # custom_objects={'neg_loglike':neg_loglike,
+                   #                 'divergence':divergence})
 
 st.title('MNIST Digit Classifier')
 
@@ -59,15 +59,23 @@ def predict_digit_from_canvas(canvas_data):
         st.pyplot(plot_preprocessed_image(img))
         # Prediction
         pred = model(img)
-        st.write(pred.numpy().shape)
+        # st.write(pred.numpy().shape)
         pred = np.percentile(pred.numpy(), 50, axis=0)
         # st.write(pred.T)
         pred_digit = np.argmax(pred)
-        st.pyplot(plot_prediction_probs(pred))
-        return f'Predicted Digit: {pred_digit}'
+        # st.pyplot(plot_prediction_probs(pred))
+        # return f'Predicted Digit: {pred_digit}'
+        return img, pred, pred_digit
     return "No digit drawn or image not processed correctly."
 
 # Button to submit the drawing for prediction
 if st.button('Submit'):
-    prediction = predict_digit_from_canvas(canvas_result.image_data)
-    st.write(prediction)
+    img, pred, probs = predict_digit_from_canvas(canvas_result.image_data)
+    if img is not None:
+        col1, col2 = st.columns(2)
+        with col1:
+            st.pyplot(plot_preprocessed_image(img))
+        with col2:
+            st.write(f'Predicted digit: {pred_digit}')
+        st.pyplot(plot_prediction(probs))
+    # st.write(prediction)
