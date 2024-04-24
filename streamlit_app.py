@@ -142,18 +142,17 @@ with col2:
 
 
 with st.sidebar:
-    if img is not None:
-        feedback = st.radio(
-            "Is the model correct?", 
-            ('Yes', 'No'), 
-            index=None,
-            disabled=st.session_state.disabled)
-        if feedback == 'Yes':
-            st.session_state.correct_predictions += 1
-            st.write("Thanks for responding!")
-        elif feedback == 'No':
-            st.session_state.incorrect_predictions += 1
-            st.write("Whoops! Let's try again!")
+    feedback = st.radio(
+        "Is the model correct?", 
+        ('Yes', 'No'), 
+        index=None,
+        disabled=True if img is not None else False)
+    if feedback == 'Yes':
+        st.session_state.correct_predictions += 1
+        st.write("Thanks for responding!")
+    elif feedback == 'No':
+        st.session_state.incorrect_predictions += 1
+        st.write("Whoops! Let's try again!")
 
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
     st.write(f"Incorrect Predictions: {st.session_state.incorrect_predictions}")
