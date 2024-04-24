@@ -154,7 +154,8 @@ with st.sidebar:
         ('Yes', 'No'), 
         index=None,
         disabled=st.session_state.disabled,
-        key='User_input_on_prediction')
+        key='User_input_on_prediction',
+        value=None)
     if feedback == 'Yes':
         st.session_state.correct_predictions += 1
         st.write("Thanks for responding!")
