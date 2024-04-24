@@ -129,7 +129,7 @@ with st.sidebar:
 pred_digit = None
 if pred_digit is None:
     st.session_state.disabled=True
-    
+
 img = None
     # Button to submit the drawing for prediction
 if st.button('Submit'):
@@ -153,9 +153,12 @@ with st.sidebar:
     if feedback == 'Yes':
         st.session_state.correct_predictions += 1
         st.write("Thanks for responding!")
+        feedback.index = None
     elif feedback == 'No':
         st.session_state.incorrect_predictions += 1
         st.write("Whoops! Let's try again!")
+        feedback.index = None
+
 
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
     st.write(f"Incorrect Predictions: {st.session_state.incorrect_predictions}")
