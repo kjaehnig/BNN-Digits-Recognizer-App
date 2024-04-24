@@ -119,6 +119,12 @@ with col1:
         update_streamlit=True)
 
 
+with st.sidebar:
+    st.header("Control Panel")
+    # Sampling number input
+    N = st.slider('N (Number of Samplings)', min_value=0, max_value=50, value=1)
+    if N > 10:
+        st.warning("Setting N above 10 may slow down the predictions.")
 
 
 img = None
@@ -135,12 +141,6 @@ with col2:
 
 
 with st.sidebar:
-    st.header("Control Panel")
-    # Sampling number input
-    N = st.slider('N (Number of Samplings)', min_value=0, max_value=50, value=1)
-    if N > 10:
-        st.warning("Setting N above 10 may slow down the predictions.")
-
     if img is not None:
         feedback = st.radio("Is the model correct?", ('Yes', 'No'), index=1)
         if feedback == 'Yes':
@@ -149,7 +149,7 @@ with st.sidebar:
         elif feedback == 'No':
             st.sesstion_state.incorrect_predictions += 1
             st.write("Whoops! Let's try again!")
-            
+
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
     st.write(f"Incorrect Predictions: {st.session_state.incorrect_predictions}")
 
