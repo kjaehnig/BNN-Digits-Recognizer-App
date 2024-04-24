@@ -126,6 +126,11 @@ if st.button('Submit'):
     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
     st.write(f"Predicted digit: {pred_digit}")
 
+with col2:
+    if img is not None:
+        st.pyplot(plot_preprocessed_image(img))
+        st.pyplot(plot_prediction_probs(pred))
+
 if img is not None:
     feedback = st.radio("Is the prediction correct?", ('Yes', 'No', 'Submit Response'), index=2)
     if feedback in ('Yes', 'No'):
@@ -141,7 +146,3 @@ if img is not None:
 
 
 
-with col2:
-    if img is not None:
-        st.pyplot(plot_preprocessed_image(img))
-        st.pyplot(plot_prediction_probs(pred))
