@@ -92,7 +92,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         # Prediction
         # pred = model.predict(img, batch_size=num_samples)  # Assume model.predict handles BNN sampling
         pred = np.array([model(img).numpy().squeeze() for ii in range(num_samples)])
-        st.write(pred)
+        # st.write(pred)
         # pred = np.percentile(pred, 50, axis=0)  # Median over samples
         pred = np.sum(pred, axis=0) / num_samples
         pred_digit = np.argmax(pred)
@@ -124,7 +124,7 @@ img = None
 
 if st.button('Submit'):
     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
-    st.write(pred_digit)
+    st.write(f"Predicted digit: {pred_digit})
 
 if img is not None:
     feedback = st.radio("Is the prediction correct?", ('Yes', 'No', 'Submit Response'), index=2)
