@@ -47,6 +47,10 @@ model = load_model('mnist_bnn',
                    # custom_objects={'neg_loglike':neg_loglike,
                    #                 'divergence':divergence})
 
+# Initialize or get the counter from session state
+if 'correct_predictions' not in st.session_state:
+    st.session_state.correct_predictions = 0
+
 st.title('MNIST Digit Classifier')
 
 # Streamlit canvas for drawing digits
@@ -97,6 +101,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
     return "No digit drawn or image not processed correctly."
 
 col1, col2 = st.columns(2)
+
 with col1:
     # Streamlit canvas for drawing digits
     canvas_result = st_canvas(
@@ -115,10 +120,26 @@ with col1:
         st.warning("Setting N above 10 may slow down the predictions.")
 
     # Button to submit the drawing for prediction
-img=None
+img = None
+
 if st.button('Submit'):
     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
     st.write(pred_digit)
+
+if img is not None:
+    feedback = st.radio("Is the prediction correct?", ('Yes', 'No', 'Submit Response'), index=2)
+    if feedback in ('Yes', 'No'):
+        if 'last_input' not in st.session_state or st.session_state.last_input != feedback:
+            st.session_state.last_input = feedback
+            if feedback == 'Yes':
+                st.session_state.correct_predictions += 1
+                st.success("Thank you for your feedback!")
+            else:
+                st.error("Sorry, let's try another one!")
+
+    st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
+
+
 
 with col2:
     if img is not None:
