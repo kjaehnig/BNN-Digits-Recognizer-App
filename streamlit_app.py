@@ -126,13 +126,16 @@ with st.sidebar:
     if N > 10:
         st.warning("Setting N above 10 may slow down the predictions.")
 
-
+pred_digit = None
+if pred_digit is None:
+    st.session_state.disabled=True
+    
 img = None
     # Button to submit the drawing for prediction
 if st.button('Submit'):
     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
     st.write(f"Predicted digit: {pred_digit}")
-    st.session_state.disabled = True
+    st.session_state.disabled = False
 
 with col2:
     if img is not None:
@@ -146,7 +149,7 @@ with st.sidebar:
         "Is the model correct?", 
         ('Yes', 'No'), 
         index=None,
-        disabled=True if img is not None else False)
+        disabled=st.session_state.disabled)
     if feedback == 'Yes':
         st.session_state.correct_predictions += 1
         st.write("Thanks for responding!")
