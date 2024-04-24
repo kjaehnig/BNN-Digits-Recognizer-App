@@ -134,7 +134,7 @@ with col2:
         st.pyplot(plot_prediction_probs(pred))
 
 if img is not None:
-    feedback = st..sidebar.radio("Is the prediction correct?", ('Yes', 'No'), index=2)
+    feedback = st.sidebar.radio("Is the prediction correct?", ('Yes', 'No'), index=2)
     if feedback in ('Yes', 'No'):
         if 'last_input' not in st.session_state or st.session_state.last_input != feedback:
             st.session_state.last_input = feedback
