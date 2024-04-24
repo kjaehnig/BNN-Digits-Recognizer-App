@@ -47,9 +47,12 @@ model = load_model('mnist_bnn',
                    # custom_objects={'neg_loglike':neg_loglike,
                    #                 'divergence':divergence})
 
-# Initialize or get the counter from session state
+
+# Initialize session state variables if they don't already exist
 if 'correct_predictions' not in st.session_state:
     st.session_state.correct_predictions = 0
+if 'incorrect_predictions' not in st.session_state:
+    st.session_state.incorrect_predictions = 0
 
 st.title('MNIST Digit Classifier')
 
@@ -101,10 +104,6 @@ def predict_digit_from_canvas(canvas_data, num_samples):
     return "No digit drawn or image not processed correctly."
 
 
-# Sampling number input
-N = st.sidebar.slider('N (Number of Samplings)', min_value=0, max_value=50, value=1)
-if N > 10:
-    st.sidebar.warning("Setting N above 10 may slow down the predictions.")
 
 col1, col2 = st.columns(2)
 with col1:
@@ -133,18 +132,24 @@ with col2:
         st.pyplot(plot_preprocessed_image(img))
         st.pyplot(plot_prediction_probs(pred))
 
-if img is not None:
-    feedback = st.sidebar.radio("Is the prediction correct?", ('Yes', 'No'), index=2)
-    if feedback in ('Yes', 'No'):
-        if 'last_input' not in st.session_state or st.session_state.last_input != feedback:
-            st.session_state.last_input = feedback
-            if feedback == 'Yes':
-                st.session_state.correct_predictions += 1
-                st.success("Thank you for your feedback!")
-            else:
-                st.error("Sorry, let's try another one!")
 
+
+with st.sidebar:
+    st.header("Control Panel")
+    # Sampling number input
+    N = st.slider('N (Number of Samplings)', min_value=0, max_value=50, value=1)
+    if N > 10:
+        st.warning("Setting N above 10 may slow down the predictions.")
+
+    if img is not None:
+        feedback = st.radio("Is the model correct?", ('Yes', 'No'), index=1)
+        if feedback == 'Yes':
+            st.session_state.correct_predictions += 1
+            st.write("Thanks for responding!")
+        elif feedback == 'No':
+            st.sesstion_state.incorrect_predictions += 1
+            st.write("Whoops! Let's try again!")
+            
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
-
-
+    st.write(f"Incorrect Predictions: {st.session_state.incorrect_predictions}")
 
