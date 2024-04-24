@@ -100,8 +100,13 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         return img, pred, pred_digit
     return "No digit drawn or image not processed correctly."
 
-col1, col2 = st.columns(2)
 
+# Sampling number input
+N = st.sidebar.slider('N (Number of Samplings)', min_value=0, max_value=50, value=1)
+if N > 10:
+    st.sidebar.warning("Setting N above 10 may slow down the predictions.")
+
+col1, col2 = st.columns(2)
 with col1:
     # Streamlit canvas for drawing digits
     canvas_result = st_canvas(
@@ -114,14 +119,11 @@ with col1:
         key='canvas',
         update_streamlit=True)
 
-    # Sampling number input
-    N = st.slider('N (Number of Samplings)', min_value=0, max_value=50, value=1)
-    if N > 10:
-        st.warning("Setting N above 10 may slow down the predictions.")
 
-    # Button to submit the drawing for prediction
+
+
 img = None
-
+    # Button to submit the drawing for prediction
 if st.button('Submit'):
     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
     st.write(f"Predicted digit: {pred_digit}")
@@ -132,7 +134,7 @@ with col2:
         st.pyplot(plot_prediction_probs(pred))
 
 if img is not None:
-    feedback = st.radio("Is the prediction correct?", ('Yes', 'No', 'Submit Response'), index=2)
+    feedback = st..sidebar.radio("Is the prediction correct?", ('Yes', 'No'), index=2)
     if feedback in ('Yes', 'No'):
         if 'last_input' not in st.session_state or st.session_state.last_input != feedback:
             st.session_state.last_input = feedback
