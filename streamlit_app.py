@@ -104,6 +104,10 @@ def predict_digit_from_canvas(canvas_data, num_samples):
     return "No digit drawn or image not processed correctly."
 
 
+def clear_selection():
+    for key in st.session_state.keys():
+        if key.startswith("User_input_on_prediction"):
+            st.session_state[key] = "False"
 
 col1, col2 = st.columns(2)
 with col1:
@@ -149,15 +153,14 @@ with st.sidebar:
         "Is the model correct?", 
         ('Yes', 'No'), 
         index=None,
-        disabled=st.session_state.disabled)
+        disabled=st.session_state.disabled,
+        key='User_input_on_prediction')
     if feedback == 'Yes':
         st.session_state.correct_predictions += 1
         st.write("Thanks for responding!")
-        feedback.index = None
     elif feedback == 'No':
         st.session_state.incorrect_predictions += 1
         st.write("Whoops! Let's try again!")
-        feedback.index = None
 
 
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
