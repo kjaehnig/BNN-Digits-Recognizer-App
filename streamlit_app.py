@@ -147,7 +147,7 @@ with st.sidebar:
             st.session_state.correct_predictions += 1
             st.write("Thanks for responding!")
         elif feedback == 'No':
-            st.sesstion_state.incorrect_predictions += 1
+            st.session_state.incorrect_predictions += 1
             st.write("Whoops! Let's try again!")
 
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
