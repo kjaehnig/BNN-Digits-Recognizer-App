@@ -132,6 +132,7 @@ img = None
 if st.button('Submit'):
     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
     st.write(f"Predicted digit: {pred_digit}")
+    st.session_state.disabled = True
 
 with col2:
     if img is not None:
@@ -142,7 +143,11 @@ with col2:
 
 with st.sidebar:
     if img is not None:
-        feedback = st.radio("Is the model correct?", ('Yes', 'No'), index=1)
+        feedback = st.radio(
+            "Is the model correct?", 
+            ('Yes', 'No'), 
+            index=None,
+            disabled=st.session_state.disabled)
         if feedback == 'Yes':
             st.session_state.correct_predictions += 1
             st.write("Thanks for responding!")
