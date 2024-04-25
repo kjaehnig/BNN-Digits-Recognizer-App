@@ -176,17 +176,17 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         st.write([ii.shape for ii in img])
         # Prediction
         # pred = model.predict(img, batch_size=num_samples)  # Assume model.predict handles BNN sampling
-        pred = np.array(
-            [[model(jj.reshape(28,28,1)).numpy().squeeze() for jj in img] for ii in range(num_samples)])
-        st.write(pred.shape)
+        # st.write(pred)
         # pred = np.percentile(pred, 50, axis=0)  # Median over samples
         if len(img)==1:
+            pred = np.array([model(img).numpy().squeeze() for ii in range(num_samples)])
             pred = np.sum(pred, axis=0) / num_samples
             # pred = np.exp(pred) / np.sum(np.exp(pred))
             pred_digit = np.argmax(pred)
-
             return img, pred, pred_digit
 
+        if len(img) > 1:
+            pass
     return "No digit drawn or image not processed correctly."
 
 
