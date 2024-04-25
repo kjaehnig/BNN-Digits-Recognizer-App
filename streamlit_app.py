@@ -173,7 +173,7 @@ with st.sidebar:
     feedback.checkbox('No', value=False, key='no_checkbox_val')
 
     feedback.form_submit_button("Submit", 
-        callback=register_prediction_checkbox)
+        on_click=register_prediction_checkbox)
 
 
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
