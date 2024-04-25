@@ -175,7 +175,7 @@ with col2:
 if img is not None:
     with st.container():
         if N==1:
-            st.write("**Probabilities across possible digits (<span style="color:red">NOTE: Only one sample has been drawn.</span>)**")
+            st.write("**Probabilities across possible digits**"+"(<span style="color:red">NOTE: Only one sample has been drawn.</span>))"
         else:
             st.write("**Probabilities across possible digits**")
         st.bar_chart(data=pred.squeeze())
