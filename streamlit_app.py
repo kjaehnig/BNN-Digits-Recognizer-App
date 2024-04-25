@@ -153,11 +153,13 @@ with col2:
     if img is not None:
         with st.container():
             st.write("What model sees")
-            st.image(img.reshape(28,28,1), clamp=True)
-            
+            st.image(img.reshape(28,28,1), 
+                clamp=True,
+                use_column_width='always')
+
             st.write("Probabilities")
             st.bar_chart(x=range(10), 
-                y=probs.squeeze())
+                y=pred.squeeze())
 
 
 def register_prediction_checkbox():
