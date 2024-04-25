@@ -198,7 +198,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
             pred = np.array([model(np.array(img).reshape(len(img),28,28,1)).numpy().squeeze() for ii in range(num_samples)])
             pred = np.sum(pred, axis=0) / num_samples
 
-            pred_digit = ''.join([np.argmax(ii) for ii in pred])
+            pred_digit = ''.join([np.argmax(ii).astype("str") for ii in pred])
             return img, pred, pred_digit
     return "No digit drawn or image not processed correctly."
 
