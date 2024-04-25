@@ -148,7 +148,7 @@ if pred_digit is None:
 img = None
     # Button to submit the drawing for prediction
 if st.button('Submit'):
-    with st.spinner("Processing and predicting digit from image...")
+    with st.spinner("Processing and predicting digit from image..."):
         img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
         st.write(f"Predicted digit: {pred_digit}")
 
