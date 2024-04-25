@@ -173,7 +173,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
     if canvas_data is not None:
         # Preprocessing
         img = grab_digits_from_canvas(canvas_data)
-
+        st.write(img.shape)
         # Prediction
         # pred = model.predict(img, batch_size=num_samples)  # Assume model.predict handles BNN sampling
         pred = np.array([model(img).numpy().squeeze() for ii in range(num_samples)])
