@@ -121,6 +121,7 @@ def clear_selection():
 col1, col2 = st.columns(2)
 with col1:
     with st.container():
+        st.write("Draw a single digit b/w 0-9")
         # Streamlit canvas for drawing digits
         canvas_result = st_canvas(
             stroke_width=10, 
@@ -159,8 +160,7 @@ with col2:
                 use_column_width='always')
 
             st.write("Probabilities")
-            st.bar_chart(x=[0,1,2,3,4,5,6,7,8,9], 
-                y=pred.squeeze())
+            st.bar_chart(data=pred.squeeze())
 
 
 def register_prediction_checkbox():
