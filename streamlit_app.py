@@ -159,7 +159,7 @@ with col2:
                 use_column_width='always')
 
             st.write("Probabilities")
-            st.bar_chart( 
+            st.bar_chart(x=[0,1,2,3,4,5,6,7,8,9], 
                 y=pred.squeeze())
 
 
