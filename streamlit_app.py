@@ -167,7 +167,6 @@ with st.sidebar:
     feedback = st.form(
         "Is the model correct?", 
         clear_on_submit=True,
-        disabled=True if img is None else False
         )
 
     feedback.checkbox('Yes', value=False, key='yes_checkbox_val')
