@@ -132,8 +132,8 @@ with col1:
             stroke_width=10, 
             stroke_color='#ffffff',
             background_color='#000000', 
-            height=320, 
-            width=320,
+            height=315, 
+            width=315,
             drawing_mode='freedraw', 
             key='canvas',
             update_streamlit=True)
