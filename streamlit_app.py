@@ -158,10 +158,12 @@ with col2:
 def register_prediction_checkbox():
     if st.session_state.yes_checkbox_val:
         st.session_state.correct_predictions += 1
-        st.write("Thanks for responding!")
+        with st.sidebar:
+            st.write("Thanks for responding!")
     elif st.session_state.no_checkbox_val:
         st.session_state.incorrect_predictions += 1
-        st.write("Whoops! Let's try again!")
+        with st.sidebar:
+            st.write("Whoops! Let's try again!")
 
 with st.sidebar:
     feedback = st.form(
@@ -173,7 +175,8 @@ with st.sidebar:
     feedback.checkbox('No', value=False, key='no_checkbox_val')
 
     feedback.form_submit_button("Submit", 
-        on_click=register_prediction_checkbox)
+        on_click=register_prediction_checkbox,
+        disabled=True if img is None else False)
 
 
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
