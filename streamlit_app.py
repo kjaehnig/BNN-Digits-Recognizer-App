@@ -127,7 +127,7 @@ def clear_selection():
 col1, col2 = st.columns(2)
 with col1:
     with st.container():
-        st.write("Draw a single digit between 0-9")
+        st.write("**Draw a single digit between 0-9**")
         # Streamlit canvas for drawing digits
         canvas_result = st_canvas(
             stroke_width=10, 
@@ -154,9 +154,9 @@ if pred_digit is None:
 img = None
     # Button to submit the drawing for prediction
 if st.button('Submit'):
-    with st.spinner("Processing and predicting digit from image..."):
+    with st.spinner("**Processing and predicting digit from image...**"):
         img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
-        st.write(f"Predicted digit: {pred_digit}")
+        st.write(f"**Predicted digit: {pred_digit}**")
 
 with col2:
     if img is not None:
@@ -168,7 +168,7 @@ with col2:
 
 if img is not None:
     with st.container():
-        st.write("Probabilities across possible digits")
+        st.write("**Probabilities across possible digits**")
         st.bar_chart(data=pred.squeeze())
 
 
