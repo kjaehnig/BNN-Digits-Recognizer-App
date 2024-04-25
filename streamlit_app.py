@@ -16,8 +16,8 @@ def grab_digits_from_canvas(image):
     if image is None:
         print("Error: Image not found. Check the file path.")
         exit()
-    if image_data.shape[2] == 4:
-        image_data = image_data[:, :, :3]
+    if image.shape[2] == 4:
+        image = image[:, :, :3]
 
     # Convert to grayscale
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
