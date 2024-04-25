@@ -42,11 +42,16 @@ def plot_preprocessed_image(img):
                       labelbottom=False)
     return fig
 # Load the saved Bayesian model
-model = load_model('mnist_bnn',
+
+@st.cache_resource
+def load_model_into_streamlit():
+    model = load_model('mnist_bnn',
                    compile=False,)
                    # custom_objects={'neg_loglike':neg_loglike,
                    #                 'divergence':divergence})
+    return model 
 
+model = load_model_into_streamlit()
 
 # Initialize session state variables if they don't already exist
 if 'correct_predictions' not in st.session_state:
@@ -127,8 +132,8 @@ with col1:
             stroke_width=10, 
             stroke_color='#ffffff',
             background_color='#000000', 
-            height=350, 
-            width=350,
+            height=320, 
+            width=320,
             drawing_mode='freedraw', 
             key='canvas',
             update_streamlit=True)
