@@ -174,8 +174,10 @@ with col2:
 
 if img is not None:
     with st.container():
-        only_one_sample = '**(Model has only sampled onced)**'
-        st.write("**Probabilities across possible digits**" + only_one_sample if N==1 else '')
+        if N==1:
+            st.write("**Probabilities across possible digits (<span style="color:red">NOTE: Only one sample has been drawn.</span>)**")
+        else:
+            st.write("**Probabilities across possible digits**")
         st.bar_chart(data=pred.squeeze())
 
 
