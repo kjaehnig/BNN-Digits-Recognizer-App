@@ -112,6 +112,7 @@ def load_model_into_streamlit():
                    compile=False,)
                    # custom_objects={'neg_loglike':neg_loglike,
                    #                 'divergence':divergence})
+    loaded_model.trainable = False
     return loaded_model 
 
 model = load_model_into_streamlit()
