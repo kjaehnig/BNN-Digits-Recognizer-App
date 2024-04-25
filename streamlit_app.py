@@ -111,7 +111,8 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         pred = np.array([model(img).numpy().squeeze() for ii in range(num_samples)])
         # st.write(pred)
         # pred = np.percentile(pred, 50, axis=0)  # Median over samples
-        pred = np.exp(pred) / np.sum(np.exp(pred), axis=0)
+        pred = np.sum(pred, axis=0) / num_samples
+        pred = np.exp(pred) / np.sum(np.exp(pred))
         pred_digit = np.argmax(pred)
 
         return img, pred, pred_digit
