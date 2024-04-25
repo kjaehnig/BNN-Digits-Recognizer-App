@@ -195,6 +195,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
                 col.image(img[ii].reshape(28,28,1), 
                         clamp=True,
                         use_column_width='always')
+            pred = np.array([model(np.array(img).reshape(len(img),28,28,1)).numpy.squeeze() for ii in range(num_samples)])
     return "No digit drawn or image not processed correctly."
 
 
