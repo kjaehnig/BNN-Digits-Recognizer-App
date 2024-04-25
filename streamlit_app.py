@@ -172,7 +172,7 @@ with st.sidebar:
     feedback.checkbox('Yes', value=False, key='yes_checkbox_val')
     feedback.checkbox('No', value=False, key='no_checkbox_val')
 
-    form.form_submit_button("Submit", 
+    feedback.form_submit_button("Submit", 
         callback=register_prediction_checkbox)
 
 
