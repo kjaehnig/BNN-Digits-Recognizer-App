@@ -212,7 +212,7 @@ def clear_selection():
 # with col1:
 with st.container():
 
-    st.write("**Try it out! Draw a single digit between 0-9**")
+    st.write("**Try it out! Draw digits (0-9) on canvas without their edges touching**")
     # Streamlit canvas for drawing digits
     canvas_result = st_canvas(
         stroke_width=10, 
@@ -232,6 +232,8 @@ with st.sidebar:
     if N > 10:
         st.warning("Setting N above 10 may slow down the predictions.")
 
+
+    plot_all = st.checkbox('Plot digit(s) probabilities?', value=False, key='plot_all_checkbox')
 pred_digit = None
 if pred_digit is None:
     st.session_state.disabled=True
