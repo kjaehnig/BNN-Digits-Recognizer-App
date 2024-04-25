@@ -149,7 +149,7 @@ with col1:
 with st.sidebar:
     st.header("Control Panel")
     # Sampling number input
-    N = st.slider('N (Number of samples)', min_value=0, max_value=50, value=1)
+    N = st.slider('N (Number of samples)', min_value=1, max_value=50, value=1)
     if N > 10:
         st.warning("Setting N above 10 may slow down the predictions.")
 
