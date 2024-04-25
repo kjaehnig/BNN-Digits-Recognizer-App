@@ -187,7 +187,11 @@ def predict_digit_from_canvas(canvas_data, num_samples):
             return img, pred, pred_digit
 
         if len(img) > 1:
-            pass
+            allcols = st.columns(len(img))
+            for ii, col in enumerate(allcols):
+                col.image(img[ii].reshape(28,28,1), 
+                        clamp=True,
+                        use_column_width='always')
     return "No digit drawn or image not processed correctly."
 
 
@@ -196,7 +200,7 @@ def clear_selection():
         if key.startswith("User_input_on_prediction"):
             st.session_state[key] = "False"
 
-col1, col2 = st.columns(2)
+# col1, col2 = st.columns(2)
 # with col1:
 with st.container():
 
