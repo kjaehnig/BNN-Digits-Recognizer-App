@@ -25,7 +25,7 @@ def process_image(image_data):
     return img
 
 def plot_prediction_probs(probs):
-    fig, ax = plt.subplots(figsize=(6,3))
+    fig, ax = plt.subplots(figsize=(4,4))
     ax.bar(range(10), probs.squeeze(), tick_label=range(10))
     ax.set_title("BNN Predictions")
     plt.xlabel('Probability')
@@ -151,8 +151,11 @@ if st.button('Submit'):
 
 with col2:
     if img is not None:
-        st.pyplot(plot_preprocessed_image(img))
-        st.pyplot(plot_prediction_probs(pred))
+        subcol1,subcol2 = col2.columns(2)
+        with subcol1:
+            st.pyplot(plot_preprocessed_image(img))
+        with subcol2: 
+            st.pyplot(plot_prediction_probs(pred))
 
 
 def register_prediction_checkbox():
