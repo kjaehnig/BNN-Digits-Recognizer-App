@@ -69,7 +69,12 @@ if 'no_checkbox_val' not in st.session_state:
     st.session_state['no_checkbox_val'] = False
 
 st.title('Bayesian MNIST Digit Classifier')
-
+st.write("""
+    Bayesian neural networks (BNN) don't fit single value weights when they train. 
+    BNNs instead fit distributions with parameters to better describe uncertainty 
+    in the data, as well as the model. Prediction probabilities across all of the 
+    digit labels in the data provide a better picture of how sure (or unsure) the 
+    model.""")
 # Streamlit canvas for drawing digits
 # canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
 #                           background_color='#000000', height=200, width=200,
@@ -127,12 +132,7 @@ def clear_selection():
 col1, col2 = st.columns(2)
 with col1:
     with st.container():
-        st.write("""
-            Bayesian neural networks (BNN) don't fit single value weights when they train. 
-            BNNs instead fit distributions with parameters to better describe uncertainty 
-            in the data, as well as the model. Prediction probabilities across all of the 
-            digit labels in the data provide a better picture of how sure (or unsure) the 
-            model.""")
+
         st.write("**Try it out! Draw a single digit between 0-9**")
         # Streamlit canvas for drawing digits
         canvas_result = st_canvas(
