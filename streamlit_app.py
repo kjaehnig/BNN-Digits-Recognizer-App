@@ -43,7 +43,7 @@ def plot_preprocessed_image(img):
     return fig
 # Load the saved Bayesian model
 
-@st.cache(allow_output_mutation=True)
+@st.cache_resource(allow_output_mutation=True)
 def load_model_into_streamlit():
     model = load_model('mnist_bnn',
                    compile=False,)
