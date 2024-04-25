@@ -153,7 +153,8 @@ with col2:
     if img is not None:
         with st.container():
             st.write("What model sees")
-            st.image(img.reshape(28,28,1))
+            st.image(img.reshape(28,28,1), clamp=True)
+            
             st.write("Probabilities")
             st.bar_chart(x=range(10), 
                 y=probs.squeeze())
