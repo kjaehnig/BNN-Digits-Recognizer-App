@@ -151,11 +151,12 @@ if st.button('Submit'):
 
 with col2:
     if img is not None:
-        subrow1,subrow2 = col2.rows(2)
-        with subrow1:
-            st.pyplot(plot_preprocessed_image(img))
-        with subrow2: 
-            st.pyplot(plot_prediction_probs(pred))
+        with st.container():
+            st.write("What model sees")
+            st.image(img.reshape(28,28,1))
+            st.write("Probabilities")
+            st.bar_chart(x=range(10), 
+                y=probs.squeeze())
 
 
 def register_prediction_checkbox():
