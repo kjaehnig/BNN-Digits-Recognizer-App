@@ -161,7 +161,7 @@ if st.button('Submit'):
 with col2:
     if img is not None:
         with st.container():
-            st.write("What model sees")
+            st.write("**What model sees**")
             st.image(img.reshape(28,28,1), 
                 clamp=True,
                 use_column_width='always')
