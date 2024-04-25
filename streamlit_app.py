@@ -186,7 +186,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
             pred = np.array([model(img[0].reshape(1,28,28,1)).numpy().squeeze() for ii in range(num_samples)])
             pred = np.sum(pred, axis=0) / num_samples
             # pred = np.exp(pred) / np.sum(np.exp(pred))
-            pred_digit = np.argmax(pred)
+            pred_digit = [np.argmax(pred)]
             return img, pred, pred_digit
 
         if len(img) > 1:
