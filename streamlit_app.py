@@ -54,6 +54,15 @@ if 'correct_predictions' not in st.session_state:
 if 'incorrect_predictions' not in st.session_state:
     st.session_state.incorrect_predictions = 0
 
+st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
+st.write(f"Incorrect Predictions: {st.session_state.incorrect_predictions}")
+
+
+if "yes_checkbox_val" not in st.session_state:
+    st.session_state["yes_checkbox_val"] = False
+if 'no_checkbox_val' not in st.session_state:
+    st.session_state['no_checkbox_val'] = False
+
 st.title('MNIST Digit Classifier')
 
 # Streamlit canvas for drawing digits
@@ -139,7 +148,6 @@ img = None
 if st.button('Submit'):
     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
     st.write(f"Predicted digit: {pred_digit}")
-    st.session_state.disabled = False
 
 with col2:
     if img is not None:
@@ -147,21 +155,26 @@ with col2:
         st.pyplot(plot_prediction_probs(pred))
 
 
-
-with st.sidebar:
-    feedback = st.radio(
-        "Is the model correct?", 
-        ('Yes', 'No'), 
-        index=None,
-        disabled=st.session_state.disabled,
-        key='User_input_on_prediction',
-        value=None)
-    if feedback == 'Yes':
+def register_prediction_checkbox():
+    if st.session_state.yes_checkbox_val:
         st.session_state.correct_predictions += 1
         st.write("Thanks for responding!")
-    elif feedback == 'No':
+    elif st.session_state.no_checkbox_val:
         st.session_state.incorrect_predictions += 1
         st.write("Whoops! Let's try again!")
+
+with st.sidebar:
+    feedback = st.form(
+        "Is the model correct?", 
+        clear_on_submit=True,
+        disabled=True if img is None else False
+        )
+
+    feedback.checkbox('Yes', value=False, key='yes_checkbox_val')
+    feedback.checkbox('No', value=False, key='no_checkbox_val')
+
+    form.form_submit_button("Submit", c
+        allback=register_prediction_checkbox)
 
 
     st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
