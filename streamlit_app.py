@@ -120,7 +120,7 @@ def clear_selection():
 
 col1, col2 = st.columns(2)
 with col1:
-    with st.container()
+    with st.container():
         # Streamlit canvas for drawing digits
         canvas_result = st_canvas(
             stroke_width=10, 
