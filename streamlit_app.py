@@ -166,6 +166,7 @@ def register_prediction_checkbox():
             st.write("Whoops! Let's try again!")
 
 with st.sidebar:
+    st.header("Is the model correct?")
     feedback = st.form(
         "Is the model correct?", 
         clear_on_submit=True,
