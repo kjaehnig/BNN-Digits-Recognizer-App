@@ -175,7 +175,8 @@ with col2:
 if img is not None:
     with st.container():
         if N==1:
-            st.write("**Probabilities across possible digits**"+"(<span style="color:red">NOTE: Only one sample has been drawn.</span>)")
+            single_sample_warning = "NOTE: Only one sample has been drawn"
+            st.write("**Probabilities across possible digits** "+f":red[{single_sample_warning}]")
         else:
             st.write("**Probabilities across possible digits**")
 
