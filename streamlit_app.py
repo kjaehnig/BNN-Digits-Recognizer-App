@@ -127,8 +127,8 @@ with col1:
             stroke_width=10, 
             stroke_color='#ffffff',
             background_color='#000000', 
-            height=300, 
-            width=300,
+            height=350, 
+            width=350,
             drawing_mode='freedraw', 
             key='canvas',
             update_streamlit=True)
