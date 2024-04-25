@@ -151,10 +151,10 @@ if st.button('Submit'):
 
 with col2:
     if img is not None:
-        subcol1,subcol2 = col2.columns(2)
-        with subcol1:
+        subrow1,subrow2 = col2.rows(2)
+        with subrow1:
             st.pyplot(plot_preprocessed_image(img))
-        with subcol2: 
+        with subrow2: 
             st.pyplot(plot_prediction_probs(pred))
 
 
