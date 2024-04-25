@@ -54,8 +54,8 @@ if 'correct_predictions' not in st.session_state:
 if 'incorrect_predictions' not in st.session_state:
     st.session_state.incorrect_predictions = 0
 
-st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
-st.write(f"Incorrect Predictions: {st.session_state.incorrect_predictions}")
+# st.write(f"Correct Predictions: {st.session_state.correct_predictions}")
+# st.write(f"Incorrect Predictions: {st.session_state.incorrect_predictions}")
 
 
 if "yes_checkbox_val" not in st.session_state:
