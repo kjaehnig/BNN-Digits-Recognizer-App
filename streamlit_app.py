@@ -177,6 +177,7 @@ def register_prediction_checkbox():
         st.session_state.correct_predictions += 1
         with st.sidebar:
             st.write("Thanks for responding!")
+            st.balloons()
     elif st.session_state.no_checkbox_val:
         st.session_state.incorrect_predictions += 1
         with st.sidebar:
