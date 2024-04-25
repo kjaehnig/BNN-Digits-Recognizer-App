@@ -120,16 +120,17 @@ def clear_selection():
 
 col1, col2 = st.columns(2)
 with col1:
-    # Streamlit canvas for drawing digits
-    canvas_result = st_canvas(
-        stroke_width=10, 
-        stroke_color='#ffffff',
-        background_color='#000000', 
-        height=300, 
-        width=300,
-        drawing_mode='freedraw', 
-        key='canvas',
-        update_streamlit=True)
+    with st.container()
+        # Streamlit canvas for drawing digits
+        canvas_result = st_canvas(
+            stroke_width=10, 
+            stroke_color='#ffffff',
+            background_color='#000000', 
+            height=300, 
+            width=300,
+            drawing_mode='freedraw', 
+            key='canvas',
+            update_streamlit=True)
 
 
 with st.sidebar:
@@ -158,7 +159,7 @@ with col2:
                 use_column_width='always')
 
             st.write("Probabilities")
-            st.bar_chart(x=range(10), 
+            st.bar_chart(x=np.arange(10), 
                 y=pred.squeeze())
 
 
