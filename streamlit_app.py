@@ -237,8 +237,8 @@ if img is not None and plot_all_preds:
             st.write("**Probabilities across possible digits** "+f":red[{single_sample_warning}]")
         else:
             st.write("**Probabilities across possible digits**")
-
-        st.bar_chart(data=pred.squeeze().T)
+        for ii in range(pred.shape[0]):
+            st.bar_chart(data=pred.squeeze().T[ii])
 
 
 def register_prediction_checkbox():
