@@ -165,7 +165,6 @@ if 'no_checkbox_val' not in st.session_state:
 st.title('Bayesian MNIST Multi-Digit Classifier')
 
 if st.button('Show Text'):
-
     st.write("""
     Bayesian neural networks (BNN) don't fit single value weights when they train. 
     BNNs instead fit distributions with parameters to better describe uncertainty 
