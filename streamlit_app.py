@@ -42,11 +42,11 @@ def grab_digits_from_canvas(image):
     # cv2.imshow('Eroded1', eroded1)    
     # cv2.waitKey(0)
 
-    eroded2 = cv2.erode(eroded1, kernel_cr, iterations=1)
+    # eroded2 = cv2.erode(eroded1, kernel_cr, iterations=1)
     # cv2.imshow('Eroded2', eroded2)    
     # cv2.waitKey(0)
 
-    eroded3 = cv2.erode(eroded2, kernel_ep, iterations=1)
+    eroded3 = cv2.erode(eroded1, kernel_ep, iterations=1)
     # cv2.imshow('Eroded3', eroded3)    
     # cv2.waitKey(0)
 
