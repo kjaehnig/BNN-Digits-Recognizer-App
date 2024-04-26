@@ -249,7 +249,7 @@ if st.button('Submit'):
         img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
         if len(pred_digit) > 1:
             pred_digit = ''.join([str(dig) for dig in pred_digit])
-        st.write(f"**Predicted digit: {pred_digit}**")
+        st.write(f"## **Predicted digit: {pred_digit}**")
 
 plot_model_image = False
 if img is not None and plot_model_image:
