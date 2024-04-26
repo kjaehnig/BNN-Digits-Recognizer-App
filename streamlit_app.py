@@ -218,8 +218,8 @@ if st.button('Submit'):
     with st.spinner("**Processing and predicting digit from image...**"):
         img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
         if len(pred_digit) > 1:
-            pred_digit = ''.join([str(dig) for dig in pred_digit])
-        st.write(f"## **Predicted digit: {pred_digit}**")
+            pred_digit_str = ''.join([str(dig) for dig in pred_digit])
+        st.write(f"## **Predicted digit: {pred_digit_str}**")
 
 # plot_model_image = False
 # if img is not None and plot_model_image:
@@ -238,7 +238,7 @@ if img is not None and plot_all_preds:
         else:
             st.write("**Probabilities across possible digits**")
         for ii in range(pred.shape[0]):
-            st.write(f"**Probabilities for digit {ii}**")
+            st.write(f"**Probabilities for position {ii}, Classified as a {pred_digit[ii]}**")
             st.bar_chart(data=pred.squeeze()[ii].T)
 
 
