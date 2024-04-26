@@ -179,8 +179,9 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         # pred = model.predict(img, batch_size=num_samples)  # Assume model.predict handles BNN sampling
         # st.write(pred)
         # pred = np.percentile(pred, 50, axis=0)  # Median over samples
+        st.write("**What the model sees**")
+
         if len(img)==1:
-            st.write("**What model sees**")
             st.image(img[0].reshape(28,28,1), 
                 clamp=True,
                 use_column_width='always')
@@ -192,8 +193,6 @@ def predict_digit_from_canvas(canvas_data, num_samples):
 
         if len(img) > 1:
             allcols = st.columns(len(img))
-            st.write("**What the model sees**")
-
             for ii, col in enumerate(allcols):
                 col.image(img[ii].reshape(28,28,1), 
                         clamp=True,
