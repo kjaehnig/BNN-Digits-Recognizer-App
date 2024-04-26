@@ -38,15 +38,15 @@ def grab_digits_from_canvas(image):
     kernel_re = cv2.getStructuringElement(kre, (5,5))
 
     # Perform erosion to remove connections
-    eroded1 = cv2.erode(blur, kernel_re, iterations=3)
+    eroded1 = cv2.erode(blur, kernel_re, iterations=1)
     # cv2.imshow('Eroded1', eroded1)    
     # cv2.waitKey(0)
 
-    eroded2 = cv2.erode(eroded1, kernel_cr, iterations=3)
+    eroded2 = cv2.erode(eroded1, kernel_cr, iterations=1)
     # cv2.imshow('Eroded2', eroded2)    
     # cv2.waitKey(0)
 
-    eroded3 = cv2.erode(eroded2, kernel_ep, iterations=3)
+    eroded3 = cv2.erode(eroded2, kernel_ep, iterations=1)
     # cv2.imshow('Eroded3', eroded3)    
     # cv2.waitKey(0)
 
