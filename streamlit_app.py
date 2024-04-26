@@ -163,13 +163,17 @@ if 'no_checkbox_val' not in st.session_state:
     st.session_state['no_checkbox_val'] = False
 
 st.title('Bayesian MNIST Multi-Digit Classifier')
-st.write("""
+
+if st.button('Show Text'):
+
+    st.write("""
     Bayesian neural networks (BNN) don't fit single value weights when they train. 
     BNNs instead fit distributions with parameters to better describe uncertainty 
     in the data, as well as in the model itself. Prediction probabilities across all of the 
     class labels in a prediction provide a better picture of how sure (or unsure) the 
     model is about it's final classification. This app here uses OpenCV to separate out 
-    numbers to perform individual predictions, then reconstructing the resulting number.""")
+    numbers to perform individual predictions, then reconstructing the resulting number.
+    """)
 
 def predict_digit_from_canvas(canvas_data, num_samples):
     if canvas_data is not None:
@@ -215,7 +219,7 @@ def clear_selection():
 # with col1:
 with st.container():
 
-    st.write("**Try it out! Draw digits (0-9) on canvas without their edges touching**")
+    st.write("**Try it out! Draw digits (0-9) on the canvas**")
     # Streamlit canvas for drawing digits
     canvas_result = st_canvas(
         stroke_width=15, 
