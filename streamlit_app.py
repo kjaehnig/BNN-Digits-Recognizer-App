@@ -180,6 +180,7 @@ def predict_digit_from_canvas(canvas_data, num_samples):
         # st.write(pred)
         # pred = np.percentile(pred, 50, axis=0)  # Median over samples
         if len(img)==1:
+            st.write("**What model sees**")
             st.image(img[0].reshape(28,28,1), 
                 clamp=True,
                 use_column_width='always')
@@ -191,6 +192,8 @@ def predict_digit_from_canvas(canvas_data, num_samples):
 
         if len(img) > 1:
             allcols = st.columns(len(img))
+            st.write("**What the model sees**")
+
             for ii, col in enumerate(allcols):
                 col.image(img[ii].reshape(28,28,1), 
                         clamp=True,
@@ -234,6 +237,7 @@ with st.sidebar:
 
 
     plot_all = st.checkbox('Plot digit(s) probabilities?', value=False, key='plot_all_checkbox')
+
 pred_digit = None
 if pred_digit is None:
     st.session_state.disabled=True
