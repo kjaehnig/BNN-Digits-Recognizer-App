@@ -27,9 +27,38 @@ def grab_digits_from_canvas(image):
     blur = cv2.GaussianBlur(gray, (5,5), 0, 0)
     # print(help(cv2.GaussianBlur))
 
-    # Apply adaptive threshold
-    thresh = cv2.adaptiveThreshold(blur, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 2)
+    # Select the kernel type
+    kep = cv2.MORPH_ELLIPSE  # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
+    kernel_ep = cv2.getStructuringElement(kep, (1,1))
+    
+    kcr = cv2.MORPH_CROSS  # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
+    kernel_cr = cv2.getStructuringElement(kcr, (3,3))
 
+    kre = cv2.MORPH_RECT # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
+    kernel_re = cv2.getStructuringElement(kre, (5,5))
+
+    # Perform erosion to remove connections
+    eroded1 = cv2.erode(blur, kernel_re, iterations=3)
+    cv2.imshow('Eroded1', eroded1)    
+    # cv2.waitKey(0)
+
+    eroded2 = cv2.erode(eroded1, kernel_cr, iterations=3)
+    cv2.imshow('Eroded2', eroded2)    
+    # cv2.waitKey(0)
+
+    eroded3 = cv2.erode(eroded2, kernel_ep, iterations=3)
+    cv2.imshow('Eroded3', eroded3)    
+    # cv2.waitKey(0)
+
+    # Apply adaptive threshold
+    thresh = cv2.adaptiveThreshold(eroded3, 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY_INV, 11, 3)
+    cv2.imshow('Threshold', thresh)
+    # cv2.waitKey(0)
+
+    # Apply dilation to recover separated images
+    dilated = cv2.dilate(eroded3, kernel_ep, iterations=10)
+    cv2.imshow('Dilated', dilated)
+    # cv2.waitKey(0)
     # Find contours
     contours, hierarchy = cv2.findContours(thresh, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
 
@@ -219,7 +248,7 @@ if st.button('Submit'):
         img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
         if len(pred_digit) > 1:
             pred_digit_str = ''.join([str(dig) for dig in pred_digit])
-        st.write(f"## **Predicted digit: {pred_digit_str}**")
+        st.write(f"## **Reconstructed number: {pred_digit_str}**")
 
 # plot_model_image = False
 # if img is not None and plot_model_image:
