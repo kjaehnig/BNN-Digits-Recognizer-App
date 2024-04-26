@@ -137,9 +137,9 @@ st.write("""
     Bayesian neural networks (BNN) don't fit single value weights when they train. 
     BNNs instead fit distributions with parameters to better describe uncertainty 
     in the data, as well as in the model itself. Prediction probabilities across all of the 
-    digit labels in the data provide a better picture of how sure (or unsure) the 
-    model. This app here uses OpenCV to separate out numbers to perform individual predictions,
-    then reconstructing the resulting number.""")
+    class labels in a prediction provide a better picture of how sure (or unsure) the 
+    model is about it's final classification. This app here uses OpenCV to separate out 
+    numbers to perform individual predictions, then reconstructing the resulting number.""")
 
 def predict_digit_from_canvas(canvas_data, num_samples):
     if canvas_data is not None:
