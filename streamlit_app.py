@@ -247,8 +247,7 @@ img = None
 if st.button('Submit'):
     with st.spinner("**Processing and predicting digit from image...**"):
         img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data, N)
-        if len(pred_digit) > 1:
-            pred_digit_str = ''.join([str(dig) for dig in pred_digit])
+        pred_digit_str = ''.join([str(dig) for dig in pred_digit])
         st.write(f"## **Reconstructed number: {pred_digit_str}**")
 
 # plot_model_image = False
