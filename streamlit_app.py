@@ -132,44 +132,15 @@ if "yes_checkbox_val" not in st.session_state:
 if 'no_checkbox_val' not in st.session_state:
     st.session_state['no_checkbox_val'] = False
 
-st.title('Bayesian MNIST Digit Classifier')
+st.title('Bayesian MNIST Multi-Digit Classifier')
 st.write("""
     Bayesian neural networks (BNN) don't fit single value weights when they train. 
     BNNs instead fit distributions with parameters to better describe uncertainty 
-    in the data, as well as the model. Prediction probabilities across all of the 
+    in the data, as well as in the model itself. Prediction probabilities across all of the 
     digit labels in the data provide a better picture of how sure (or unsure) the 
-    model.""")
-# Streamlit canvas for drawing digits
-# canvas_result = st_canvas(stroke_width=10, stroke_color='#ffffff',
-#                           background_color='#000000', height=200, width=200,
-#                           drawing_mode='freedraw',key='canvas')
+    model. This app here uses OpenCV to separate out numbers to perform individual predictions,
+    then reconstructing the resulting number.""")
 
-# def predict_digit_from_canvas(canvas_data):
-#     if canvas_data is not None:
-#         # Preprocessing
-#         img = process_image(canvas_data.astype('float32'))
-#         # st.pyplot(plot_preprocessed_image(img))
-#         # Prediction
-#         pred = model(img)
-#         # st.write(pred.numpy().shape)
-#         pred = np.percentile(pred.numpy(), 50, axis=0)
-#         # st.write(pred.T)
-#         pred_digit = np.argmax(pred)
-#         col1, col2 = st.columns(2)
-#         with col1:
-#             st.pyplot(plot_preprocessed_image(img))
-#         with col2:
-#             st.pyplot(plot_prediction_probs(pred))
-#         # st.pyplot(plot_prediction_probs(pred))
-#         # return f'Predicted Digit: {pred_digit}'
-#         return img, pred, pred_digit
-#     return "No digit drawn or image not processed correctly."
-#
-# # Button to submit the drawing for prediction
-# if st.button('Submit'):
-#     img, pred, pred_digit = predict_digit_from_canvas(canvas_result.image_data)
-#     st.write(f'Predicted digit: {pred_digit}')
-# Side-by-side canvas and results
 def predict_digit_from_canvas(canvas_data, num_samples):
     if canvas_data is not None:
         # Preprocessing
@@ -235,7 +206,7 @@ with st.sidebar:
         st.warning("Setting N above 10 may slow down the predictions.")
 
 
-    plot_all = st.checkbox('Plot digit(s) probabilities?', value=False, key='plot_all_checkbox')
+    plot_all_preds = st.checkbox('Plot digit(s) probabilities?', value=False, key='plot_all_checkbox')
 
 pred_digit = None
 if pred_digit is None:
@@ -250,15 +221,15 @@ if st.button('Submit'):
             pred_digit = ''.join([str(dig) for dig in pred_digit])
         st.write(f"## **Predicted digit: {pred_digit}**")
 
-plot_model_image = False
-if img is not None and plot_model_image:
-    with st.container():
-        st.write("**What model sees**")
-        st.image(img.reshape(28,28,1), 
-            clamp=True,
-            use_column_width='always')
+# plot_model_image = False
+# if img is not None and plot_model_image:
+#     with st.container():
+#         st.write("**What model sees**")
+#         st.image(img.reshape(28,28,1), 
+#             clamp=True,
+#             use_column_width='always')
 
-plot_all_preds = False
+# plot_all_preds = False
 if img is not None and plot_all_preds:
     with st.container():
         if N==1:
