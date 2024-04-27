@@ -3,6 +3,7 @@ import numpy as np
 import scipy as sp
 import seaborn as sns
 import sklearn as skl
+import pandas as pd
 from sklearn.metrics import classification_report
 from sklearn.utils import class_weight
 
@@ -19,16 +20,30 @@ from tensorflow.keras.utils import to_categorical
 
 tfd = tfp.distributions
 tfpl = tfp.layers
+
 # Load MNIST data
-(train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+# (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
+
+# Use the EMNIST digit datasets
+dspath = '/mnt/g/WSL/downloaded_ml_data/emnist-digits/'
+train, test = (
+    pd.read_csv(dspath+'emnist-digits-train.csv'),
+    pd.read_csv(dspath+"emnist-digits-test.csv")
+    )
+
+train_labels, test_labels = train.iloc[:, 0].values, test.iloc[:, 0].values
+train_images, test_images = (
+    train.iloc[:, 1:].values.reshape(-1, 28, 28, 1),
+    test.iloc[:, 1:].values.reshape(-1, 28, 28, 1)
+    )
 
 # Normalize pixel values
 train_images, test_images = train_images / 255.0, test_images / 255.0
 print(train_images.shape)
 
 # Reshape images to have single-channel
-train_images, test_images = (train_images.reshape(train_images.shape[0], 28, 28, 1),
-                             test_images.reshape(test_images.shape[0], 28, 28, 1))
+# train_images, test_images = (train_images.reshape(train_images.shape[0], 28, 28, 1),
+#                              test_images.reshape(test_images.shape[0], 28, 28, 1))
 # One-hot encode labels
 train_labels, test_labels = to_categorical(train_labels), to_categorical(test_labels)
 
@@ -42,7 +57,7 @@ def create_bnn():
     model = Sequential([
     # tf.keras.layers.RandomFlip('horizontal', input_shape=(28, 28, 1)),
     tf.keras.layers.RandomRotation(0.2, input_shape=(28, 28, 1)),
-    tf.keras.layers.RandomTranslation(0.3, 0.3),
+    tf.keras.layers.RandomTranslation(0.25, 0.25),
     # tf.keras.layers.RandomContrast(0.1, input_shape=(28, 28, 1)),
     # tf.keras.layers.RandomBrightness(0.1),
     # Flatten(),
