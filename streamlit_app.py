@@ -24,30 +24,30 @@ def grab_digits_from_canvas(image):
     # print(gray.shape)
 
     # Apply GaussianBlur
-    blur = cv2.GaussianBlur(gray, (5,5), 0, 0)
+    blur = cv2.GaussianBlur(gray, (5, 5), 0, 0)
     # print(help(cv2.GaussianBlur))
 
     # Select the kernel type
     kep = cv2.MORPH_ELLIPSE  # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
-    kernel_ep = cv2.getStructuringElement(kep, (3,3))
-    
-    kcr = cv2.MORPH_CROSS  # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
-    kernel_cr = cv2.getStructuringElement(kcr, (3,3))
+    kernel_ep = cv2.getStructuringElement(kep, (3, 3))
 
-    kre = cv2.MORPH_RECT # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
-    kernel_re = cv2.getStructuringElement(kre, (5,5))
+    kcr = cv2.MORPH_CROSS  # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
+    kernel_cr = cv2.getStructuringElement(kcr, (3, 3))
+
+    kre = cv2.MORPH_RECT  # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
+    kernel_re = cv2.getStructuringElement(kre, (5, 5))
 
     # Perform erosion to remove connections
     eroded1 = cv2.erode(blur, kernel_re, iterations=1)
-    # cv2.imshow('Eroded1', eroded1)    
+    # cv2.imshow('Eroded1', eroded1)
     # cv2.waitKey(0)
 
     # eroded2 = cv2.erode(eroded1, kernel_cr, iterations=1)
-    # cv2.imshow('Eroded2', eroded2)    
+    # cv2.imshow('Eroded2', eroded2)
     # cv2.waitKey(0)
 
     eroded3 = cv2.erode(eroded1, kernel_ep, iterations=1)
-    # cv2.imshow('Eroded3', eroded3)    
+    # cv2.imshow('Eroded3', eroded3)
     # cv2.waitKey(0)
 
     # Apply adaptive threshold
@@ -68,24 +68,26 @@ def grab_digits_from_canvas(image):
 
     # Sort contours by their left most x-coordinate, left to right
     contours = sorted(
-        contours, 
+        contours,
         key=lambda ctr: (cv2.boundingRect(ctr)[0]))
 
     for contour in contours:
         x, y, w, h = cv2.boundingRect(contour)
-        print(x,y,w,h)
+        print(x, y, w, h)
 
         # Make sure the contour area is a likely digit (optional, adjust sizes as needed)
         if w > 10 and h > 25:
-            digit = gray[y:y+h, x:x+w]
+            digit = gray[y:y + h, x:x + w]
             # digit_images.append(digit)
 
         if h > w:  # More height than width, pad width
             pad_size = abs((h - w)) // 2
-            digit = cv2.copyMakeBorder(digit, pad_size//2, pad_size//2, pad_size, pad_size, cv2.BORDER_CONSTANT, value=[0,0,0])
+            digit = cv2.copyMakeBorder(digit, pad_size // 2, pad_size // 2, pad_size, pad_size, cv2.BORDER_CONSTANT,
+                                       value=[0, 0, 0])
         else:  # More width than height, pad height
             pad_size = abs(w - h) // 2
-            digit = cv2.copyMakeBorder(digit, pad_size, pad_size, pad_size//2, pad_size//2, cv2.BORDER_CONSTANT, value=[0,0,0])
+            digit = cv2.copyMakeBorder(digit, pad_size, pad_size, pad_size // 2, pad_size // 2, cv2.BORDER_CONSTANT,
+                                       value=[0, 0, 0])
         # Resize to 28x28
         resized = cv2.resize(digit, (28, 28), interpolation=cv2.INTER_AREA)
         digit_images.append(resized)
