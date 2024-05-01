@@ -28,8 +28,8 @@ def grab_digits_from_canvas(image):
     # print(help(cv2.GaussianBlur))
 
     # Select the kernel type
-    # kep = cv2.MORPH_ELLIPSE  # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
-    # kernel_ep = cv2.getStructuringElement(kep, (3, 3))
+    kep = cv2.MORPH_ELLIPSE  # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
+    kernel_ep = cv2.getStructuringElement(kep, (3, 3))
 
     # kcr = cv2.MORPH_CROSS  # Change based on need: MORPH_RECT, MORPH_CROSS, MORPH_ELLIPSE
     # kernel_cr = cv2.getStructuringElement(kcr, (3, 3))
