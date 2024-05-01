@@ -39,7 +39,7 @@ train_images, test_images = (
 
 # Normalize pixel values
 train_images, test_images = train_images / 255.0, test_images / 255.0
-print(train_images.shape)
+print(train_images.shape, train_labels.shape)
 
 # Reshape images to have single-channel
 # train_images, test_images = (train_images.reshape(train_images.shape[0], 28, 28, 1),
@@ -51,18 +51,18 @@ def neg_loglike(ytrue, ypred):
     return -ypred.log_prob(ytrue)
 
 def divergence(q,p,_):
-    return tfd.kl_divergence(q,p)/60000.
+    return tfd.kl_divergence(q,p)/train_labels.shape[0]
 
 def create_bnn():
     model = Sequential([
-    # tf.keras.layers.RandomFlip('horizontal', input_shape=(28, 28, 1)),
-    tf.keras.layers.RandomRotation(0.2, input_shape=(28, 28, 1)),
-    tf.keras.layers.RandomTranslation(0.25, 0.25),
+    tf.keras.layers.RandomFlip('horizontal_and_vertical', input_shape=(28, 28, 1)),
+    # tf.keras.layers.RandomRotation(0.15, input_shape=(28, 28, 1)),
+    # tf.keras.layers.RandomTranslation(0.1, 0.2),
     # tf.keras.layers.RandomContrast(0.1, input_shape=(28, 28, 1)),
     # tf.keras.layers.RandomBrightness(0.1),
     # Flatten(),
-    tfpl.Convolution2DFlipout(16,
-        kernel_size=(3, 3),
+    tfpl.Convolution2DFlipout(32,
+        kernel_size=(5, 5),
         padding='same',
         activation='relu',
         kernel_divergence_fn=divergence,
@@ -70,8 +70,8 @@ def create_bnn():
 
     MaxPooling2D((2, 2)),
     Dropout(0.1),
-    tfpl.Convolution2DFlipout(32,
-        kernel_size=(3, 3),
+    tfpl.Convolution2DFlipout(48,
+        kernel_size=(5, 5),
         padding='same',
         activation='relu',
         kernel_divergence_fn=divergence,
@@ -80,20 +80,25 @@ def create_bnn():
     Dropout(0.1),
     MaxPooling2D((2, 2)),
     tfpl.Convolution2DFlipout(64,
-        kernel_size=(3, 3),
+        kernel_size=(5, 5),
         padding='same',
         activation='relu',
         kernel_divergence_fn=divergence,
         bias_divergence_fn=divergence, ),
 
     Dropout(0.1),
-    MaxPooling2D((2,2)),
+    # MaxPooling2D((2,2)),
     Flatten(),
     tfpl.DenseFlipout(512,
                       activation='relu',
                       kernel_divergence_fn=divergence,
                       bias_divergence_fn=divergence),
-    Dropout(0.2),
+    Dropout(0.1),
+    tfpl.DenseFlipout(64,
+                      activation='relu',
+                      kernel_divergence_fn=divergence,
+                      bias_divergence_fn=divergence),
+    Dropout(0.1),
     tfpl.DenseFlipout(10,
                       activation='relu',
                       kernel_divergence_fn=divergence,
@@ -104,7 +109,7 @@ def create_bnn():
     return model
 
 model = create_bnn()
-model.compile(optimizer=Adam(learning_rate=5e-4),
+model.compile(optimizer=Adam(learning_rate=1e-4),
               loss=neg_loglike,
               metrics=['accuracy'],
               experimental_run_tf_function=False
