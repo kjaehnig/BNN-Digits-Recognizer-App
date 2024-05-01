@@ -119,6 +119,7 @@ def process_image(image_data):
     img = img[np.newaxis, :]
     return img
 
+
 def plot_prediction_probs(probs):
     fig, ax = plt.subplots(figsize=(4,4))
     ax.bar(range(10), probs.squeeze(), tick_label=range(10))
@@ -126,6 +127,7 @@ def plot_prediction_probs(probs):
     plt.xlabel('Probability')
     plt.ylabel('Digit')
     return fig
+
 
 def plot_preprocessed_image(img):
     fig, imgax = plt.subplots(figsize=(1.,1.))
@@ -137,6 +139,7 @@ def plot_preprocessed_image(img):
                       labelbottom=False)
     return fig
 # Load the saved Bayesian model
+
 
 @st.cache_resource
 def load_model_into_streamlit():

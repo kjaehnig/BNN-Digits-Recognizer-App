@@ -143,12 +143,13 @@ for num in range(10):
     cws[num] = class_weights[num]
 mdlhist = model.fit(train_images,
                     train_labels,
-                    class_weight=cws,
+                    # class_weight=cws,
                     batch_size=1024,
                     epochs=200,
                     validation_data=(test_images, test_labels),
-                    callbacks=[reduce_lr])
+                    callbacks=[reduce_lr, earlystop])
 
+model.evaluate(test_images, test_labels)
 print(classification_report(test_labels, model.predict(test_images)))
 
 model.save('/home/lreclusa/repositories/BNN-Digits-Recognizer-App/mnist_bnn')
