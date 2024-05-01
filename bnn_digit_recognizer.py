@@ -120,7 +120,7 @@ print(model.summary())
 earlystop = tf.keras.callbacks.EarlyStopping(
     monitor='val_accuracy',
     patience=10,
-    start_from_epoch=100,
+    start_from_epoch=50,
     restore_best_weights=True,
     mode='max'
 )
